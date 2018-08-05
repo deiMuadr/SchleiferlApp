@@ -1,8 +1,6 @@
-
-
 /*
  ******************************************************************
-Copyright (c) 2017 Simon Knödler
+Copyright (c) 2017 Simon KnÃ¶dler
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -55,7 +53,7 @@ public class Player {
 		this.difference = 0;
 		this.rundenAufPlatz = 0;
 		this.gespielt = true;
-		
+
 	}
 
 	public Player(int platz, String name, int points, int difference, int rundenAufPlatz, boolean gespielt) {
@@ -66,7 +64,7 @@ public class Player {
 		this.rundenAufPlatz = rundenAufPlatz;
 		this.gespielt = gespielt;
 	}
-	
+
 	// Getters und Setters
 
 	public String getName() {
@@ -116,5 +114,5 @@ public class Player {
 	public void setGespielt(boolean gespielt) {
 		this.gespielt = gespielt;
 	}
-	
+
 }

@@ -1,12 +1,6 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
 /*
  ******************************************************************
- Copyright (c) 2017 Simon Knödler
+ Copyright (c) 2017 Simon KnÃ¶dler
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -39,6 +33,8 @@ import java.util.Random;
 
  ******************************************************************
  */
+
+import java.util.*;
 
 public class Calculations {
 
@@ -78,14 +74,14 @@ public class Calculations {
 	// }
 	//
 	// /**
-	// * Löscht alle Werte aus der Matrix, um sie neu beschreiben zu können.
+	// * LÃ¶scht alle Werte aus der Matrix, um sie neu beschreiben zu kÃ¶nnen.
 	// *
 	// * @param playerList
 	// * Liste mit Spielern
 	// */
 	// public void deleteMatrix(ArrayList<Player> playerList) {
-	// // TODO wird vermutlich nicht benötigt - Modellfüllung wird über Array
-	// gelöst
+	// // TODO wird vermutlich nicht benÃ¶tigt - ModellfÃ¼llung wird Ã¼ber Array
+	// gelÃ¶st
 	// }
 
 	/**
@@ -128,7 +124,7 @@ public class Calculations {
 	}
 
 	/**
-	 * Erstellt die Spielerliste obere Hälft spielt mit untere Hälfte
+	 * Erstellt die Spielerliste obere HÃ¤lft spielt mit untere HÃ¤lfte
 	 */
 	public void createPairsGoodandBad() {
 
@@ -143,7 +139,8 @@ public class Calculations {
 
 		int gespielt = 0;
 		int nichtGespielt = 0;
-//TODO: gepsielt nicht gespielt funktiniert noch nicht, d.h.aussetzen bis jeder einmal ausgesetzt hat
+
+		//TODO: gespielt nicht gespielt funktiniert noch nicht, d.h.aussetzen bis jeder einmal ausgesetzt hat
 		for (Player p : playerList) {
 			if (p.isGespielt()) {
 				gespielt += 1;
@@ -152,29 +149,24 @@ public class Calculations {
 			}
 		}
 
-		System.out.println("Gesp " + gespielt);
-		System.out.println("nichtg " + nichtGespielt);
-
 		if (nichtGespielt == playerList.size()) {
-			System.out.println("hier");
 			for (Player p : playerList) {
 				p.setGespielt(true);
 				gespielt = playerList.size();
 				nichtGespielt = 0;
 			}
-
 		}
 
 		while (playerList.size() > 0) {
 
-			// 1. Auf flag "gespielt" prüfen. Spieler mit Flag bevorzugen.
+			// 1. Auf flag "gespielt" prÃ¼fen. Spieler mit Flag bevorzugen.
 
 			int i = 1;
 			while (i < playerList.size() && gespielteRunden != 0) {
 
 				if (!playerList.get(i).isGespielt()) {
-					// partner suchen und beide löschen aus der liste
-					// prüfen an welcher stelle der Spieler steht, wenn oben,
+					// partner suchen und beide lÃ¶schen aus der liste
+					// prÃ¼fen an welcher stelle der Spieler steht, wenn oben,
 					// dann unten einen Parnter, wenn unten, dann oben einen
 					// Partner.
 					if (i < Math.round(playerList.size() / 2)) {
@@ -191,13 +183,13 @@ public class Calculations {
 
 						tempListFirstPlayers.add(playerList.get(i));
 						// TODO: wenn aAussetzen gespeichert werden soll und
-						// erst aussetzen nachdem alle ausgestetzt haben möglich
-						// sein soll, dann Zeile unten löschen.
+						// erst aussetzen nachdem alle ausgestetzt haben mÃ¶glich
+						// sein soll, dann Zeile unten lÃ¶schen.
 						// playerList.get(i).setGespielt(true);
 						tempListSecondPlayers.add(playerList.get(secondPlayer));
 
 						// Erste 2. spieler, dann ersten entfernen, damit index
-						// nicht verrutscht und ein falscher Spieler gelöscht
+						// nicht verrutscht und ein falscher Spieler gelÃ¶scht
 						// wird.
 						playerList.remove(secondPlayer);
 						playerList.remove(i);
@@ -215,8 +207,8 @@ public class Calculations {
 
 						tempListSecondPlayers.add(playerList.get(i));
 						// TODO: wenn aAussetzen gespeichert werden soll und
-						// erst aussetzen nachdem alle ausgestetzt haben möglich
-						// sein soll, dann Zeile unten löschen.
+						// erst aussetzen nachdem alle ausgestetzt haben mÃ¶glich
+						// sein soll, dann Zeile unten lÃ¶schen.
 						// playerList.get(i).setGespielt(true);
 
 						tempListFirstPlayers.add(playerList.get(firstPlayer));
@@ -248,13 +240,9 @@ public class Calculations {
 
 				secondPlayer = firstPlayer;
 				while (secondPlayer == firstPlayer && playerList.size() > 2) {
-					System.out.println(playerList.size());
 					obereGrenze = Math.round((playerList.size() / 2));
 					untereGrenze = playerList.size() - 1;
-
 					secondPlayer = randInt(obereGrenze, untereGrenze);
-					// System.out.println(playerList.size());
-					System.out.println("hallo");
 				}
 
 				if (playerList.size() == 2) {
@@ -265,13 +253,13 @@ public class Calculations {
 				// Spieler in die tempListen schreiben
 				tempListFirstPlayers.add(playerList.get(firstPlayer));
 				tempListSecondPlayers.add(playerList.get(secondPlayer));
-				// Spieler aus der Playerslist löschen.
+				// Spieler aus der Playerslist lÃ¶schen.
 				playerList.remove(secondPlayer);
 				playerList.remove(firstPlayer);
 			}
-			// bei ungerader Anzahl oder mehr wie 24 Spieler die übrigen Spieler
+			// bei ungerader Anzahl oder mehr wie 24 Spieler die Ã¶brigen Spieler
 			// in die Paused-Liste
-			// schreiben und aus PlayerList löschen
+			// schreiben und aus PlayerList lÃ¶schen
 			if (playerList.size() == 1 || tempListFirstPlayers.size() >= 12) {
 				int x = playerList.size();
 				while (x > 0) {
@@ -292,7 +280,7 @@ public class Calculations {
 	 * Erstellt die Spielpaarungen. Gut spielt mit Gut
 	 */
 	public void createPairsGoodandGood() {
-		// TODO Fraglich, ob benötigt. Erst einmal mit nur einer Verison
+		// TODO Fraglich, ob benÃ¶tigt. Erst einmal mit nur einer Verison
 	}
 
 	public void calculateNewStatistics(String playerName, int result, int points) {
@@ -309,7 +297,7 @@ public class Calculations {
 
 	/**
 	 * Random Zahl zwischen min und max
-	 * 
+	 *
 	 * @param min
 	 *            minimum
 	 * @param max
@@ -407,9 +395,9 @@ public class Calculations {
 		Player p24 = new Player("x");
 		Player p25 = new Player("y");
 		Player p26 = new Player("z");
-		Player p27 = new Player("ä");
-		Player p28 = new Player("ü");
-		Player p29 = new Player("ö");
+		Player p27 = new Player("1");
+		Player p28 = new Player("2");
+		Player p29 = new Player("3");
 
 		Calculations c = new Calculations();
 		c.addPlayer(p1);
