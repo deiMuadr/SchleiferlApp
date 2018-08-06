@@ -126,7 +126,7 @@ public class Calculations {
 	/**
 	 * Erstellt die Spielerliste obere Hälft spielt mit untere Hälfte
 	 */
-	public void createPairsGoodandBad() {
+	public void createPairsTopandBottom() {
 
 		tempListFirstPlayers = new ArrayList<Player>();
 		tempListSecondPlayers = new ArrayList<Player>();
@@ -260,6 +260,7 @@ public class Calculations {
 			// bei ungerader Anzahl oder mehr wie 24 Spieler die öbrigen Spieler
 			// in die Paused-Liste
 			// schreiben und aus PlayerList löschen
+			//TODO: bei nicht 6 Feldern muss die 12 entsprechend angepasst werden.
 			if (playerList.size() == 1 || tempListFirstPlayers.size() >= 12) {
 				int x = playerList.size();
 				while (x > 0) {
@@ -279,7 +280,7 @@ public class Calculations {
 	/**
 	 * Erstellt die Spielpaarungen. Gut spielt mit Gut
 	 */
-	public void createPairsGoodandGood() {
+	public void createPairsTopandTop() {
 		// TODO Fraglich, ob benötigt. Erst einmal mit nur einer Verison
 	}
 
@@ -430,29 +431,29 @@ public class Calculations {
 		c.addPlayer(p28);
 		c.addPlayer(p29);
 
-		c.createPairsGoodandBad();
+		c.createPairsTopandBottom();
 		for (Player p : c.getTempListPausedPlayers()) {
 			System.out.println(p.getName());
 		}
 		System.out.println();
 
-		c.createPairsGoodandBad();
+		c.createPairsTopandBottom();
 		for (Player p : c.getTempListPausedPlayers()) {
 			System.out.println(p.getName());
 		}
 		System.out.println();
 
-		c.createPairsGoodandBad();
+		c.createPairsTopandBottom();
 		for (Player p : c.getTempListPausedPlayers()) {
 			System.out.println(p.getName());
 		}
 		System.out.println();
-		c.createPairsGoodandBad();
+		c.createPairsTopandBottom();
 		for (Player p : c.getTempListPausedPlayers()) {
 			System.out.println(p.getName());
 		}
 		System.out.println();
-		c.createPairsGoodandBad();
+		c.createPairsTopandBottom();
 		for (Player p : c.getTempListPausedPlayers()) {
 			System.out.println(p.getName());
 		}
@@ -466,7 +467,7 @@ public class Calculations {
 		// // System.out.println(p.getPoints() + " " + p.getName());
 		// // }
 		// //
-		// c.createPairsGoodandBad();
+		// c.createPairsTopandBottom();
 		//
 		// }
 		// // Calculations cal = new Calculations();

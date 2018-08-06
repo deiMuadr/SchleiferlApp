@@ -36,12 +36,11 @@
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import java.util.regex.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
 import javax.swing.table.*;
-import javax.swing.border.*;
 
 public class GUI_Schleiferl extends JFrame {
 
@@ -86,7 +85,6 @@ public class GUI_Schleiferl extends JFrame {
 
 	// Global Models
 	private DefaultTableModel 	model = new DefaultTableModel();
-	private DefaultTableModel 	modelLike;
 
 	// Global Tables
 	private JTable 				tblOrder = new JTable(model);
@@ -133,39 +131,42 @@ public class GUI_Schleiferl extends JFrame {
 	 * Panel fÃ¼r Ranglisten Anzeige vorbereiten.
 	 */
 	private void initOrder() {
-
+		
+		//Panel für Rangliste vorbereiten
 		GridBagConstraints grid = new GridBagConstraints();
 		this.panelOrder = new JPanel();
 		this.panelOrder.setLayout(new GridBagLayout());
 		grid.weightx = grid.weighty = 1;
         grid.fill = GridBagConstraints.BOTH;
+        
+        //Abstände zum Panelrand
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(panelOrder, grid);
-		grid.insets = new Insets(0, 0, 0, 0);
 
+        //Überschrift für Ranglistentabelle 
 		JPanel header = new JPanel();
 		header.setLayout(new GridBagLayout());
 		grid.weightx = grid.weighty = 0;
         grid.fill = GridBagConstraints.HORIZONTAL;
         this.panelOrder.add(header, grid);
-
 		JLabel labelRangliste = new JLabel("<html><h1>Rangliste</h1></html>");
 		grid.gridx = grid.gridy = 0;
 		header.add(labelRangliste, grid);
-
-		JPanel content = new JPanel();
-		content.setLayout(new GridBagLayout());
+		
+		JPanel contentTable = new JPanel();
+		contentTable.setLayout(new GridBagLayout());
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
         grid.fill = GridBagConstraints.BOTH;
-        this.panelOrder.add(content, grid);
-
+        this.panelOrder.add(contentTable, grid);
+        
+        //Tabelle initialisieren
 		initTblOrder(calc.getPlayerMatrix());
 		JScrollPane scrollpane = new JScrollPane();
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollpane.getViewport().add(tblOrder);
 		grid.gridy = 0;
-		content.add(scrollpane, grid);
+		contentTable.add(scrollpane, grid);
 
 	}
 
@@ -173,7 +174,8 @@ public class GUI_Schleiferl extends JFrame {
 	 * Panel fÃ¼r Anzeige von Paarungen vorbereiten.
 	 */
 	private void initMatches() {
-
+		
+		//Panel für Spieler vorbereiten
 		GridBagConstraints grid = new GridBagConstraints();
 		this.panelMatches = new JPanel();
 		this.panelMatches.setLayout(new GridBagLayout());
@@ -183,8 +185,8 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelMatches, grid);
-		grid.insets = new Insets(0, 0, 0, 0);
 
+        //Überschriften für Spielfelder und Ergebnisse
 		JPanel header = new JPanel();
 		header.setLayout(new GridBagLayout());
 		grid.gridx = 0;
@@ -197,19 +199,19 @@ public class GUI_Schleiferl extends JFrame {
 		grid.fill = GridBagConstraints.NONE;
 		header.add(labelResults, grid);
 
-		JPanel content = new JPanel();
-		content.setLayout(new GridBagLayout());
+		JPanel contentMatches = new JPanel();
+		contentMatches.setLayout(new GridBagLayout());
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
         grid.fill = GridBagConstraints.BOTH;
-        this.panelMatches.add(content, grid);
+        this.panelMatches.add(contentMatches, grid);
 
 		JPanel inputArea = new JPanel();
 		inputArea.setLayout(new GridBagLayout());
 		grid.gridy = 0;
 		grid.fill = GridBagConstraints.HORIZONTAL;
 		grid.anchor = GridBagConstraints.FIRST_LINE_START;
-		content.add(inputArea, grid);
+		contentMatches.add(inputArea, grid);
 
 		JLabel labelTeams = new JLabel("<html><h3>Paarungen</h3></html>");
 		grid.gridx = 1;
@@ -224,7 +226,7 @@ public class GUI_Schleiferl extends JFrame {
 		grid.gridwidth = 3;
 		inputArea.add(labelResult, grid);
 
-		JLabel vs = new JLabel(":");
+		//Spielfelder und Paarungen zuweisen
 		this.labelCourts = new JLabel[this.numberOfCourts];
 		this.labelA = new JLabel[this.numberOfCourts];
 		this.labelB = new JLabel[this.numberOfCourts];
@@ -232,6 +234,8 @@ public class GUI_Schleiferl extends JFrame {
 		this.inputResultB = new JTextField[this.numberOfCourts];
 		JLabel[] vsT = new JLabel[this.numberOfCourts];
 		JLabel[] vsR = new JLabel[this.numberOfCourts];
+		
+		
 		int index = 0;
 		for (int y = 0; y < this.numberOfCourts; y++) {
 
@@ -243,6 +247,7 @@ public class GUI_Schleiferl extends JFrame {
 				index += 2;
 			}
 
+			//Label für Spielfeld
 			int yVal = y + 1;
 			this.labelCourts[y] = new JLabel("<html><h4>Feld " + yVal + "</h4></html>");
 			grid.gridx = 0;
@@ -250,23 +255,26 @@ public class GUI_Schleiferl extends JFrame {
 			grid.gridwidth = 1;
 			grid.anchor = GridBagConstraints.LINE_START;
 			inputArea.add(this.labelCourts[y], grid);
-
+			
+			//Lavel für erste Paarung
 			this.labelA[y] = new JLabel("");
 			grid.gridx = 1;
 			grid.gridy = yVal;
 			grid.anchor = GridBagConstraints.CENTER;
 			inputArea.add(this.labelA[y], grid);
-
+			
 			vsT[y] = new JLabel(":");
 			grid.gridx = 2;
 			grid.gridy = yVal;
 			inputArea.add(vsT[y], grid);
 
+			//Label für zweite Paarung
 			this.labelB[y] = new JLabel("");
 			grid.gridx = 3;
 			grid.gridy = yVal;
 			inputArea.add(this.labelB[y], grid);
 
+			//Label für Ergebnis erste Paarung
 			this.inputResultA[y] = new JTextField();
 			this.inputResultA[y].setPreferredSize( new Dimension( 50, 24 ) );
 			grid.gridx = 4;
@@ -278,6 +286,7 @@ public class GUI_Schleiferl extends JFrame {
 			grid.gridy = yVal;
 			inputArea.add(vsR[y], grid);
 
+			//Label für Ergebnis zweite Paarung
 			this.inputResultB[y] = new JTextField();
 			this.inputResultB[y].setPreferredSize( new Dimension( 50, 24 ) );
 			grid.gridx = 6;
@@ -344,10 +353,11 @@ public class GUI_Schleiferl extends JFrame {
 	}
 
 	/**
-	 * Panel fÃ¼r die Eigabe von Spielern
+	 * Panel fÃ¼r die Eingabe von Spielern
 	 */
 	private void initPlayers() {
-
+		
+		//Panel vorbereiten
 		GridBagConstraints grid = new GridBagConstraints();
 
 		this.panelNames = new JPanel();
@@ -357,32 +367,34 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelNames, grid);
-		grid.insets = new Insets(0, 0, 0, 0);
-
+        
+        //Header einfügen für die Teilnehmeransicht
 		JPanel header = new JPanel();
 		header.setLayout(new GridBagLayout());
 		grid.gridx = 0;
 		grid.weightx = grid.weighty = 0;
         grid.fill = GridBagConstraints.HORIZONTAL;
         this.panelNames.add(header, grid);
-
 		JLabel labelAddPlayer = new JLabel("<html><h1>Teilnehmer hinzufÃ¼gen</h1></html>");
 		header.add(labelAddPlayer, grid);
-
-		JPanel content = new JPanel();
-		content.setLayout(new GridBagLayout());
+		
+		//Panel zur Spielereingabe
+		JPanel contentNames = new JPanel();
+		contentNames.setLayout(new GridBagLayout());
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
         grid.fill = GridBagConstraints.BOTH;
-        this.panelNames.add(content, grid);
-
+        this.panelNames.add(contentNames, grid);
+       
+        //Panel welches die Felder zur Spielereingabe bereitstellt
 		JPanel inputArea = new JPanel();
 		inputArea.setLayout(new GridBagLayout());
 		grid.gridy = 0;
 		grid.fill = GridBagConstraints.NONE;
 		grid.anchor = GridBagConstraints.FIRST_LINE_START;
-        content.add(inputArea, grid);
-
+        contentNames.add(inputArea, grid);
+        
+        //Labels und Textfelder auf das Panel hinzufügen zur Spielereingabe
 		this.labelPlayer = new JLabel[this.numberAddPlayers];
 		this.inputPlayer = new JTextField[this.numberAddPlayers];
 		for (int y = 0; y < this.numberAddPlayers; y++) {
@@ -400,7 +412,8 @@ public class GUI_Schleiferl extends JFrame {
 			inputArea.add(this.inputPlayer[y], grid);
 
 		}
-
+		
+		//Panel für Hinweise und Spielsteuerung über Buttons
 		JPanel actionArea = new JPanel();
 		actionArea.setLayout(new GridBagLayout());
 		grid.gridx = 0;
@@ -408,36 +421,40 @@ public class GUI_Schleiferl extends JFrame {
 		grid.weightx = grid.weighty = 0;
         grid.fill = GridBagConstraints.HORIZONTAL;
         this.panelNames.add(actionArea, grid);
-
+        
+        //Hinweise zur Bedienung
 		JPanel notes = new JPanel();
 		notes.setLayout(new GridBagLayout());
 		notes.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Hinweis"));
 		grid.gridy = 0;
 		grid.weightx = 1;
         actionArea.add(notes, grid);
-
 		JLabel labelNote = new JLabel("<html><p>Felder kÃ¶nnen beliebig oft befÃ¼llt werden.<br>Durch hinzufÃ¼gen werden die Spieler gespeichert<br>und neue kÃ¶nnen eingegeben werden.</p></html>");
 		grid.fill = GridBagConstraints.NONE;
 		grid.anchor = GridBagConstraints.LINE_START;
 		notes.add(labelNote, grid);
-
+		
+		//Anzeigen der Spieleranzahl
 		this.labelNumberOfPlayers = new JLabel("Anzahl Spieler: 0");
 		grid.gridy = 1;
 		actionArea.add(labelNumberOfPlayers, grid);
-
+		
+		//Buttons initiieren
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridBagLayout());
 		grid.gridy = 2;
 		grid.anchor = GridBagConstraints.LINE_END;
         actionArea.add(buttons, grid);
-
+        
+        //Button zum Hinzufügen von Spielern
 		this.buttonAdd = new JButton("HinzufÃ¼gen");
 		grid.weightx = grid.weighty = 0;
 		grid.fill = GridBagConstraints.BOTH;
 		grid.anchor = GridBagConstraints.CENTER;
 		buttons.add(this.buttonAdd, grid);
 		this.buttonAdd.addMouseListener(listenerHinzu);
-
+		
+		//Button um das Turnier zu starten
 		this.buttonStart = new JButton("Turnier starten");
 		grid.gridx = 1;
 		buttons.add(this.buttonStart, grid);
@@ -471,12 +488,9 @@ public class GUI_Schleiferl extends JFrame {
 	 */
 	private void setPairs() {
 
-		String namesPair1 = "";
-		String namesPair2 = "";
-
-		// Labels mit Spielern beschreiben; gut mit schlecht
+		// Labels mit Spielern beschreiben; oben mit unten
 		if (radioTopBottom.isSelected()) {
-			calc.createPairsGoodandBad();
+			calc.createPairsTopandBottom();
 			// PrÃ¼ft, ob alles Doppelspiele sind; wenn ein einzel dabei ist,
 			// wird unten nach dem if im else block weiter gemacht.
 			// TODO - feldbefÃ¼llung in Methode auslagern, da fÃ¼r 2. Variante Gut
@@ -485,13 +499,15 @@ public class GUI_Schleiferl extends JFrame {
 			int singlePlayers = calc.getTempListFirstPlayers().size() % 2;
 			int doubleTeams = calc.getTempListFirstPlayers().size() - singlePlayers;
 			int index = 0;
-
+			
+			//Prüfen ob es Einzelspieler gibt
 			int newSinglePlayers = doubleTeams;
 			for (int i = 0; i < singlePlayers; i++) {
 				newSinglePlayers++;
 			}
 			singlePlayers = newSinglePlayers;
-
+			
+			//Mit Doppelpaarungen anfagen und die Spielfelder befüllen
 			int court = 0;
 			if (doubleTeams != 0) {
 				while (court < this.numberOfCourts) {
@@ -505,7 +521,7 @@ public class GUI_Schleiferl extends JFrame {
 					court++;
 				}
 			}
-
+			//Falls es Einzelspieler gibt, Felder mit Einzelspieler füllen.
 			if (singlePlayers != 0) {
 				while (court < this.numberOfCourts) {
 					if (index >= singlePlayers) {
@@ -526,12 +542,14 @@ public class GUI_Schleiferl extends JFrame {
 			for (Player p : calc.getTempListFirstPlayers()) {
 				calc.getPlayerList().add(p);
 			}
-			for (Player p : calc.getTempListPausedPlayers()) {
-				//Aussetzende Spieler am ende auch updaten und 3 Punkte gutschreiben
-				p.setPoints(p.getPoints() + pointsVictory);
+			
+			for (Player p : calc.getTempListSecondPlayers()) {
 				calc.getPlayerList().add(p);
 			}
-			for (Player p : calc.getTempListSecondPlayers()) {
+			
+			for (Player p : calc.getTempListPausedPlayers()) {
+				//Aussetzende Spieler am Ende auch updaten und Punkte für gutschreiben
+				p.setPoints(p.getPoints() + pointsVictory);
 				calc.getPlayerList().add(p);
 			}
 		}
@@ -545,10 +563,13 @@ public class GUI_Schleiferl extends JFrame {
 
 		String[] playerToAdd = new String[4];
 
+//		Eingegebene Spieler durchlaufen
 		for (int player = 0; player < numberAddPlayers; player++) {
 			if (!inputPlayer[player].getText().isEmpty()) {
 				Player playertmp = new Player(inputPlayer[player].getText());
+				//Spieler zur Spielerliste hinzufügen
 				calc.addPlayer(playertmp);
+				//Spieler in die Rangliste hinzufügen
 				playerToAdd[0] = String.valueOf(playertmp.getPlatz());
 				playerToAdd[1] = playertmp.getName();
 				playerToAdd[2] = String.valueOf(playertmp.getPoints());
@@ -556,16 +577,20 @@ public class GUI_Schleiferl extends JFrame {
 				model.addRow(playerToAdd);
 				playerToAdd = new String[4];
 			}
-
+			//Reset für nächsten Spieler
 			inputPlayer[player].setText("");
 		}
-
+		//2. Tabelle updaten
 		model.fireTableDataChanged();
 		model.fireTableStructureChanged();
 		this.labelNumberOfPlayers.setText("Anzahl Spieler: " + Integer.toString(calc.getPlayerList().size()));
 
 	}
-
+	
+	/**
+	 * Prüft, ob in die Ergebnisfelder nur Integer eingegeben werden
+	 * @return
+	 */
 	private Document onlyInteger() {
 
 		Document doc = new PlainDocument() {
@@ -690,24 +715,28 @@ public class GUI_Schleiferl extends JFrame {
 			int index = 0;
 
 			for (int court = 0; court < numberOfCourts; court++) {
-
+				
+				//break, sobald alle Player/Courts durchlaufen sind
 				if (index >= calc.getPlayerList().size()) {
 					break;
 				}
-
+				
+				//Falls kein Ergebnis eingetragen ist, muss 0 gesetzt werden, damit die Kalkulation fehlerfrei funktioniert
 				if (inputResultA[court].getText().isEmpty()) {
 					inputResultA[court].setText("0");
 				}
-
 				if (inputResultB[court].getText().isEmpty()) {
 					inputResultB[court].setText("0");
 				}
-
+				
+				// Paarung A vom Feld nehmen
 				if (labelA[court].getText().contains("+")) {
 					playerNames = labelA[court].getText().split(Pattern.quote(" + "));
 				} else {
 					playerNames[0] = labelA[court].getText();
 				}
+				
+				//Punkte für Ergebnis berechnen von Spielern A
 				if (Integer.parseInt(inputResultA[court].getText()) > Integer.parseInt(inputResultB[court].getText())) {
 					result = pointsVictory;
 				} else if (Integer.parseInt(inputResultA[court].getText()) < Integer.parseInt(inputResultB[court].getText())) {
@@ -715,19 +744,26 @@ public class GUI_Schleiferl extends JFrame {
 				} else {
 					result = pointsDraw;
 				}
+				
+				//Punkte in die Spielerstatistik von A kalkulieren und schreiben.
 				for (String playerName : playerNames) {
 					if (playerName != null && !playerName.isEmpty()) {
 						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultA[court].getText()) - Integer.parseInt(inputResultB[court].getText()));
 						index++;
 					}
 				}
+				
+				//String für Spieler leeren
 				playerNames = new String[2];
 
+				// Paarung B vom Feld nehmen
 				if (labelB[court].getText().contains("+")) {
 					playerNames = labelB[court].getText().split(Pattern.quote(" + "));
 				} else {
 					playerNames[0] = labelB[court].getText();
 				}
+				
+				//Punkte für Ergebnis berechnen von Spielern B
 				if (Integer.parseInt(inputResultB[court].getText()) > Integer.parseInt(inputResultA[court].getText())) {
 					result = pointsVictory;
 				} else if (Integer.parseInt(inputResultB[court].getText()) < Integer.parseInt(inputResultA[court].getText())) {
@@ -735,6 +771,8 @@ public class GUI_Schleiferl extends JFrame {
 				} else {
 					result = pointsDraw;
 				}
+				
+				//Punkte in die Spielerstatistik von B kalkulieren und schreiben.
 				for (String playerName : playerNames) {
 					if (playerName != null && !playerName.isEmpty()) {
 						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultB[court].getText()) - Integer.parseInt(inputResultA[court].getText()));
@@ -821,7 +859,7 @@ public class GUI_Schleiferl extends JFrame {
 	 * lÃ¶scht alle Listen und setzt alles auf 0; Anfangsbildschirm zum eingeben der Spieler wird angezeigt.
 	 */
 	MouseListener reset = new MouseListener() {
-
+		//TODO: Implement
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 		}
