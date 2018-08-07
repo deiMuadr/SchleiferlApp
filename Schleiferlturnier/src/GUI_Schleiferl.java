@@ -36,9 +36,13 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
 import javax.swing.table.*;
 
@@ -103,6 +107,26 @@ public class GUI_Schleiferl extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schleiferlturnier");
+		
+		// Icon für Bierminton setzen
+		ArrayList<Image> images = new ArrayList<Image>();
+		File directory = new File("Images/Icons/");
+
+		for (File file : directory.listFiles()) {
+			try {
+				if (file.getName().toLowerCase().endsWith(".png")) {
+					File pathToFile = new File(directory + "\\" + file.getName());
+					Image image = ImageIO.read(pathToFile);
+					images.add(image);
+				}
+			} catch (IOException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		this.setIconImages(images);
+		
 		setLayout(new GridBagLayout());
 		GridBagConstraints grid = new GridBagConstraints();
 
@@ -142,7 +166,7 @@ public class GUI_Schleiferl extends JFrame {
         //Abst\u00E4nde zum Panelrand
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(panelOrder, grid);
-		grid.insets = new Insets(0, 0, 0, 0);
+//		grid.insets = new Insets(0, 0, 0, 0);
 
         //\u00DCberschrift f\u00FCr Ranglistentabelle
 		JPanel header = new JPanel();
@@ -186,7 +210,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelMatches, grid);
-		grid.insets = new Insets(0, 0, 0, 0);
+//		grid.insets = new Insets(0, 0, 0, 0);
 
         //\u00DCberschriften f\u00FCr Spielfelder und Ergebnisse
 		JPanel header = new JPanel();
@@ -369,7 +393,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelNames, grid);
-		grid.insets = new Insets(0, 0, 0, 0);
+//		grid.insets = new Insets(0, 0, 0, 0);
 
         //Header einf\u00FCgen f\u00FCr die Teilnehmeransicht
 		JPanel header = new JPanel();
