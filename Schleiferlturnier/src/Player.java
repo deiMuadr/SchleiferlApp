@@ -1,6 +1,6 @@
 /*
  ******************************************************************
-Copyright (c) 2017 Simon Knödler
+Copyright (c) 2017 Simon Kn\u00F6dler
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
