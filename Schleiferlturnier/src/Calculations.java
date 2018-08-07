@@ -1,6 +1,6 @@
 /*
  ******************************************************************
- Copyright (c) 2017 Simon Knödler
+ Copyright (c) 2017 Simon Kn\u00F6dler
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -74,14 +74,14 @@ public class Calculations {
 	// }
 	//
 	// /**
-	// * Löscht alle Werte aus der Matrix, um sie neu beschreiben zu können.
+	// * L\u00F6scht alle Werte aus der Matrix, um sie neu beschreiben zu k\u00F6nnen.
 	// *
 	// * @param playerList
 	// * Liste mit Spielern
 	// */
 	// public void deleteMatrix(ArrayList<Player> playerList) {
-	// // TODO wird vermutlich nicht benötigt - Modellfüllung wird über Array
-	// gelöst
+	// // TODO wird vermutlich nicht ben\u00F6tigt - Modellf\u00FCllung wird \u00FCber Array
+	// gel\u00F6st
 	// }
 
 	/**
@@ -124,7 +124,7 @@ public class Calculations {
 	}
 
 	/**
-	 * Erstellt die Spielerliste obere Hälft spielt mit untere Hälfte
+	 * Erstellt die Spielerliste obere H\u00E4lft spielt mit untere H\u00E4lfte
 	 */
 	public void createPairsTopandBottom() {
 
@@ -159,14 +159,14 @@ public class Calculations {
 
 		while (playerList.size() > 0) {
 
-			// 1. Auf flag "gespielt" prüfen. Spieler mit Flag bevorzugen.
+			// 1. Auf flag "gespielt" pr\u00FCfen. Spieler mit Flag bevorzugen.
 
 			int i = 1;
 			while (i < playerList.size() && gespielteRunden != 0) {
 
 				if (!playerList.get(i).isGespielt()) {
-					// partner suchen und beide löschen aus der liste
-					// prüfen an welcher stelle der Spieler steht, wenn oben,
+					// partner suchen und beide l\u00F6schen aus der liste
+					// pr\u00FCfen an welcher stelle der Spieler steht, wenn oben,
 					// dann unten einen Parnter, wenn unten, dann oben einen
 					// Partner.
 					if (i < Math.round(playerList.size() / 2)) {
@@ -183,13 +183,13 @@ public class Calculations {
 
 						tempListFirstPlayers.add(playerList.get(i));
 						// TODO: wenn aAussetzen gespeichert werden soll und
-						// erst aussetzen nachdem alle ausgestetzt haben möglich
-						// sein soll, dann Zeile unten löschen.
+						// erst aussetzen nachdem alle ausgestetzt haben m\u00F6glich
+						// sein soll, dann Zeile unten l\u00F6schen.
 						// playerList.get(i).setGespielt(true);
 						tempListSecondPlayers.add(playerList.get(secondPlayer));
 
 						// Erste 2. spieler, dann ersten entfernen, damit index
-						// nicht verrutscht und ein falscher Spieler gelöscht
+						// nicht verrutscht und ein falscher Spieler gel\u00F6scht
 						// wird.
 						playerList.remove(secondPlayer);
 						playerList.remove(i);
@@ -207,8 +207,8 @@ public class Calculations {
 
 						tempListSecondPlayers.add(playerList.get(i));
 						// TODO: wenn aAussetzen gespeichert werden soll und
-						// erst aussetzen nachdem alle ausgestetzt haben möglich
-						// sein soll, dann Zeile unten löschen.
+						// erst aussetzen nachdem alle ausgestetzt haben m\u00F6glich
+						// sein soll, dann Zeile unten l\u00F6schen.
 						// playerList.get(i).setGespielt(true);
 
 						tempListFirstPlayers.add(playerList.get(firstPlayer));
@@ -253,13 +253,13 @@ public class Calculations {
 				// Spieler in die tempListen schreiben
 				tempListFirstPlayers.add(playerList.get(firstPlayer));
 				tempListSecondPlayers.add(playerList.get(secondPlayer));
-				// Spieler aus der Playerslist löschen.
+				// Spieler aus der Playerslist l\u00F6schen.
 				playerList.remove(secondPlayer);
 				playerList.remove(firstPlayer);
 			}
-			// bei ungerader Anzahl oder mehr wie 24 Spieler die öbrigen Spieler
+			// bei ungerader Anzahl oder mehr wie 24 Spieler die \u00F6brigen Spieler
 			// in die Paused-Liste
-			// schreiben und aus PlayerList löschen
+			// schreiben und aus PlayerList l\u00F6schen
 			//TODO: bei nicht 6 Feldern muss die 12 entsprechend angepasst werden.
 			if (playerList.size() == 1 || tempListFirstPlayers.size() >= 12) {
 				int x = playerList.size();
@@ -281,7 +281,7 @@ public class Calculations {
 	 * Erstellt die Spielpaarungen. Gut spielt mit Gut
 	 */
 	public void createPairsTopandTop() {
-		// TODO Fraglich, ob benötigt. Erst einmal mit nur einer Verison
+		// TODO Fraglich, ob ben\u00F6tigt. Erst einmal mit nur einer Verison
 	}
 
 	public void calculateNewStatistics(String playerName, int result, int points) {
