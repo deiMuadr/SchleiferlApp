@@ -142,6 +142,7 @@ public class GUI_Schleiferl extends JFrame {
         //Abst\u00E4nde zum Panelrand
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(panelOrder, grid);
+		grid.insets = new Insets(0, 0, 0, 0);
 
         //\u00DCberschrift f\u00FCr Ranglistentabelle
 		JPanel header = new JPanel();
@@ -185,6 +186,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelMatches, grid);
+		grid.insets = new Insets(0, 0, 0, 0);
 
         //\u00DCberschriften f\u00FCr Spielfelder und Ergebnisse
 		JPanel header = new JPanel();
@@ -367,6 +369,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelNames, grid);
+		grid.insets = new Insets(0, 0, 0, 0);
 
         //Header einf\u00FCgen f\u00FCr die Teilnehmeransicht
 		JPanel header = new JPanel();
