@@ -290,12 +290,13 @@ public class GUI_Schleiferl extends JFrame {
 			grid.gridy = yVal;
 			grid.anchor = GridBagConstraints.CENTER;
 			inputArea.add(this.labelA[y], grid);
-
+			
+			
 			vsT[y] = new JLabel(":");
 			grid.gridx = 2;
 			grid.gridy = yVal;
 			inputArea.add(vsT[y], grid);
-
+			
 			//Label f\u00FCr zweite Paarung
 			this.labelB[y] = new JLabel("");
 			grid.gridx = 3;
