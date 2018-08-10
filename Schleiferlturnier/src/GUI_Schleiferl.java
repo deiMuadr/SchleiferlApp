@@ -167,7 +167,7 @@ public class GUI_Schleiferl extends JFrame {
         //Abst\u00E4nde zum Panelrand
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(panelOrder, grid);
-//		grid.insets = new Insets(0, 0, 0, 0);
+		grid.insets = new Insets(0, 0, 0, 0);
 
         //\u00DCberschrift f\u00FCr Ranglistentabelle
 		JPanel header = new JPanel();
@@ -184,8 +184,10 @@ public class GUI_Schleiferl extends JFrame {
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
         grid.fill = GridBagConstraints.BOTH;
+        grid.insets = new Insets(5, 5, 5, 5);
         this.panelOrder.add(contentTable, grid);
-
+        grid.insets = new Insets(0, 0, 0, 0);
+        
         //Tabelle initialisieren
 		initTblOrder(calc.getPlayerMatrix());
 		JScrollPane scrollpane = new JScrollPane();
@@ -211,7 +213,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelMatches, grid);
-//		grid.insets = new Insets(0, 0, 0, 0);
+		grid.insets = new Insets(0, 0, 0, 0);
 
         //\u00DCberschriften f\u00FCr Spielfelder und Ergebnisse
 		JPanel header = new JPanel();
@@ -394,7 +396,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
         this.panelLayout.add(this.panelNames, grid);
-//		grid.insets = new Insets(0, 0, 0, 0);
+		grid.insets = new Insets(0, 0, 0, 0);
 
         //Header einf\u00FCgen f\u00FCr die Teilnehmeransicht
 		JPanel header = new JPanel();
@@ -437,7 +439,9 @@ public class GUI_Schleiferl extends JFrame {
 			this.inputPlayer[y] = new JTextField();
 			this.inputPlayer[y].setPreferredSize( new Dimension( 200, 24 ) );
 			grid.gridx = 1;
+			grid.insets = new Insets(5, 5, 5, 5);
 			inputArea.add(this.inputPlayer[y], grid);
+			grid.insets = new Insets(0, 0, 0, 0);
 
 		}
 
@@ -479,13 +483,17 @@ public class GUI_Schleiferl extends JFrame {
 		grid.weightx = grid.weighty = 0;
 		grid.fill = GridBagConstraints.BOTH;
 		grid.anchor = GridBagConstraints.CENTER;
+		grid.insets = new Insets(5, 5, 5, 5);
 		buttons.add(this.buttonAdd, grid);
+		grid.insets = new Insets(0, 0, 0, 0);
 		this.buttonAdd.addMouseListener(listenerHinzu);
 
 		//Button um das Turnier zu starten
 		this.buttonStart = new JButton("Turnier starten");
 		grid.gridx = 1;
+		grid.insets = new Insets(5, 5, 5, 5);
 		buttons.add(this.buttonStart, grid);
+		grid.insets = new Insets(0, 0, 0, 0);
 		this.buttonStart.addMouseListener(startGame);
 
 	}
