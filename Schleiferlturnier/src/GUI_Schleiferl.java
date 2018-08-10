@@ -54,7 +54,8 @@ public class GUI_Schleiferl extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	// Global Classes
-	private Calculations 	calc = new Calculations();
+	private Calculations 		calc = new Calculations();
+	private Log 				log = new Log();
 
 	// Global Panels
 	private JPanel panelLayout;
@@ -107,8 +108,8 @@ public class GUI_Schleiferl extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schleiferlturnier");
-		
-		// Icon für Bierminton setzen
+
+		// Icon f\u00FCr Bierminton setzen
 		ArrayList<Image> images = new ArrayList<Image>();
 		File directory = new File("Images/Icons/");
 
@@ -126,7 +127,7 @@ public class GUI_Schleiferl extends JFrame {
 		}
 
 		this.setIconImages(images);
-		
+
 		setLayout(new GridBagLayout());
 		GridBagConstraints grid = new GridBagConstraints();
 
@@ -746,11 +747,15 @@ public class GUI_Schleiferl extends JFrame {
 			model.setRowCount(0);
 
 			// 1. Statistiken kalkulieren
-			String playerNames[] = new String[2];
+			String playerNamesA[] = new String[2];
+			String playerNamesB[] = new String[2];
 			int result = 0;
 			int index = 0;
 
 			for (int court = 0; court < numberOfCourts; court++) {
+
+				playerNamesA = new String[2];
+				playerNamesB = new String[2];
 
 				//break, sobald alle Player/Courts durchlaufen sind
 				if (index >= calc.getPlayerList().size()) {
@@ -767,9 +772,9 @@ public class GUI_Schleiferl extends JFrame {
 
 				// Paarung A vom Feld nehmen
 				if (labelA[court].getText().contains("+")) {
-					playerNames = labelA[court].getText().split(Pattern.quote(" + "));
+					playerNamesA = labelA[court].getText().split(Pattern.quote(" + "));
 				} else {
-					playerNames[0] = labelA[court].getText();
+					playerNamesA[0] = labelA[court].getText();
 				}
 
 				//Punkte f\u00FCr Ergebnis berechnen von Spielern A
@@ -782,21 +787,18 @@ public class GUI_Schleiferl extends JFrame {
 				}
 
 				//Punkte in die Spielerstatistik von A kalkulieren und schreiben.
-				for (String playerName : playerNames) {
+				for (String playerName : playerNamesA) {
 					if (playerName != null && !playerName.isEmpty()) {
 						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultA[court].getText()) - Integer.parseInt(inputResultB[court].getText()));
 						index++;
 					}
 				}
 
-				//String f\u00FCr Spieler leeren
-				playerNames = new String[2];
-
 				// Paarung B vom Feld nehmen
 				if (labelB[court].getText().contains("+")) {
-					playerNames = labelB[court].getText().split(Pattern.quote(" + "));
+					playerNamesB = labelB[court].getText().split(Pattern.quote(" + "));
 				} else {
-					playerNames[0] = labelB[court].getText();
+					playerNamesB[0] = labelB[court].getText();
 				}
 
 				//Punkte f\u00FCr Ergebnis berechnen von Spielern B
@@ -809,13 +811,14 @@ public class GUI_Schleiferl extends JFrame {
 				}
 
 				//Punkte in die Spielerstatistik von B kalkulieren und schreiben.
-				for (String playerName : playerNames) {
+				for (String playerName : playerNamesB) {
 					if (playerName != null && !playerName.isEmpty()) {
 						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultB[court].getText()) - Integer.parseInt(inputResultA[court].getText()));
 						index++;
 					}
 				}
-				playerNames = new String[2];
+
+				log.addLog(calc.getGespielteRunden() + 1, playerNamesA, playerNamesB, Integer.parseInt(inputResultA[court].getText()), Integer.parseInt(inputResultB[court].getText()));
 
 				inputResultA[court].setEditable(false);
 				inputResultB[court].setEditable(false);
