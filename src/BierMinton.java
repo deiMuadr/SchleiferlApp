@@ -48,20 +48,17 @@ import javax.swing.table.*;
 
 public class BierMinton extends JFrame {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	// Global Classes
-	private Calculations 		calc = new Calculations();
+	private Calculations 		calc = Calculations.getInstance();
 	private Log 				log = new Log();
 
 	// Global Panels
-	private JPanel panelLayout;
-	private JPanel panelOrder;
-	private JPanel panelMatches;
-	private JPanel panelNames;
+	private JPanel 				panelLayout;
+	private JPanel 				panelOrder;
+	private JPanel 				panelMatches;
+	private JPanel 				panelNames;
 
 	// Global Labels
 	private JLabel 				labelNumberOfPlayers;

@@ -37,21 +37,39 @@
 import java.util.*;
 
 public class Calculations {
+	
+	// Instance
+	private static Calculations _instance;
 
+	// Global strings
 	private String playerMatrix[][];
+	
+	// Global arrays
 	private List<Player> playerList = new ArrayList<Player>();
 	private List<Player> tempListFirstPlayers;
 	private List<Player> tempListSecondPlayers;
 	private List<Player> tempListPausedPlayers;
 
+	// Global integers
 	private int gespielteRunden;
+	private int NumOfPlayers = playerList.size();
+	
 
-	int NumOfPlayers = playerList.size();
-
-	// Konstruktor
-	public Calculations() {
+    // Constructor is now private
+	private Calculations() {
+		
 		gespielteRunden = 0;
+		
 	}
+	
+	// Call this method to get an instance
+    public static Calculations getInstance() {
+    	
+        if (_instance == null)
+        	_instance = new Calculations();
+        return _instance;
+        
+    }
 
 	// /**
 	// * Kreiert die Matrix zum einlesen der SPieler und Werte in die
@@ -140,7 +158,7 @@ public class Calculations {
 		int gespielt = 0;
 		int nichtGespielt = 0;
 
-		//TODO: gespielt nicht gespielt funktiniert noch nicht, d.h.aussetzen bis jeder einmal ausgesetzt hat
+		//TODO: gespielt nicht gespielt funktioniert noch nicht, d.h.aussetzen bis jeder einmal ausgesetzt hat
 		for (Player p : playerList) {
 			if (p.isGespielt()) {
 				gespielt += 1;
@@ -323,6 +341,18 @@ public class Calculations {
 
 	public void addPlayer(Player p) {
 		playerList.add(p);
+	}
+	
+	// Get specific player data for JSON log
+	public Player getPlayer(String playerName) {
+		Player player = new Player();
+		for (Player p : playerList) {
+			if (p.getName().equals(playerName)) {
+				player = p;
+				break;
+			}
+		}
+		return player;
 	}
 
 	public String[][] getPlayerMatrix() {

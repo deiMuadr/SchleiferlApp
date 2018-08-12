@@ -5,45 +5,65 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Log {
-
-    private JSONArray rounds;
+	
+	private Calculations 		calc = Calculations.getInstance();
+    private JSONArray 			rounds;
 
     public Log() {
         this.rounds = new JSONArray();
     }
 
+    /*
+     * Add log entry
+     * 
+     * @Int 		round
+     * @String[]	teamA
+     * @String[]	teamB
+     * @Int			resultA
+     * @Int			resultB
+     */
     public void addLog(int round, String[] teamA, String[] teamB, int resultA, int resultB) {
         
-    	// Team A contains of two members
-    	JSONArray newTeamA = new JSONArray();
+    	// A team contains of two members
+    	JSONArray newTeam = new JSONArray();
         
         // Loop at Team A and add members
         for (String name : teamA) {
         	if (name != null) {
+        		Player member = calc.getPlayer(name);
             	JSONObject newTeamMember = new JSONObject();
             	newTeamMember.put("name", name);
-                newTeamA.put(newTeamMember);
+            	newTeamMember.put("points", member.getPoints());
+                newTeam.put(newTeamMember);
         	}
         }
-        // Team B contains of two members
-    	JSONArray newTeamB = new JSONArray();
+        
+        // Add team to match
+    	JSONObject newMatch = new JSONObject();
+    	newMatch.put("teamA", newTeam);
+        
+        // Clear team
+    	newTeam = new JSONArray();
         
         // Loop at Team B and add members
         for (String name : teamB) {
         	if (name != null) {
+        		Player member = calc.getPlayer(name);
             	JSONObject newTeamMember = new JSONObject();
             	newTeamMember.put("name", name);
-                newTeamB.put(newTeamMember);
+            	newTeamMember.put("points", member.getPoints());
+                newTeam.put(newTeamMember);
         	}
         }
         
-        // New match
-    	JSONObject newMatch = new JSONObject();
-    	newMatch.put("teamA", teamA);
-    	newMatch.put("teamB", teamB);
+        // Add team to match
+    	newMatch.put("teamB", newTeam);
+    	
+    	// Add results to match
     	newMatch.put("resultA", resultA);
     	newMatch.put("resultB", resultB);
     	
+    	// If round exists - append match
     	Boolean exists = false;
     	for(int r = 0; r < this.rounds.length(); r++) {
     		if (this.rounds.getJSONObject(r).get("round").equals(round)) {
@@ -53,6 +73,7 @@ public class Log {
     		}
     	}
     	
+    	// Else - create round
     	if (!exists) {
     		
         	// Add match to matches
@@ -69,14 +90,28 @@ public class Log {
     	}
     }
     
+    /*
+     * Create and update JSON file
+     */
     private void createUpdateJSONFile() {
-    	try (FileWriter file = new FileWriter("log_" + new SimpleDateFormat("MM-dd-yyyy").format(new Date()).toString() + ".json")) {
+    	
+		FileWriter file = null;
+		try {
+			file = new FileWriter("log_" + new SimpleDateFormat("MM-dd-yyyy").format(new Date()).toString() + ".json");
 			file.write(this.rounds.toString());
-			file.flush();
-		}
-		catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				if (file != null) {
+					file.flush();
+					file.close();					
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+
     }
 
 }
