@@ -1,3 +1,2 @@
 bin/
-log_?.json
-**/*.class
+log*.json
