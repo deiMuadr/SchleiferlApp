@@ -46,7 +46,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.table.*;
 
-public class GUI_Schleiferl extends JFrame {
+public class BierMinton extends JFrame {
 
 	/**
 	 *
@@ -104,14 +104,14 @@ public class GUI_Schleiferl extends JFrame {
 	/**
 	 * Constructor Method
 	 */
-	public GUI_Schleiferl() {
+	public BierMinton() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Schleiferlturnier");
+		setTitle("BierMinton");
 
 		// Icon f\u00FCr Bierminton setzen
 		ArrayList<Image> images = new ArrayList<Image>();
-		File directory = new File("Images/Icons/");
+		File directory = new File("images/icons/");
 
 		for (File file : directory.listFiles()) {
 			try {
@@ -187,7 +187,7 @@ public class GUI_Schleiferl extends JFrame {
         grid.insets = new Insets(5, 5, 5, 5);
         this.panelOrder.add(contentTable, grid);
         grid.insets = new Insets(0, 0, 0, 0);
-        
+
         //Tabelle initialisieren
 		initTblOrder(calc.getPlayerMatrix());
 		JScrollPane scrollpane = new JScrollPane();
@@ -291,13 +291,13 @@ public class GUI_Schleiferl extends JFrame {
 			grid.gridy = yVal;
 			grid.anchor = GridBagConstraints.CENTER;
 			inputArea.add(this.labelA[y], grid);
-			
-			
+
+
 			vsT[y] = new JLabel(":");
 			grid.gridx = 2;
 			grid.gridy = yVal;
 			inputArea.add(vsT[y], grid);
-			
+
 			//Label f\u00FCr zweite Paarung
 			this.labelB[y] = new JLabel("");
 			grid.gridx = 3;
@@ -931,7 +931,7 @@ public class GUI_Schleiferl extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI_Schleiferl frame = new GUI_Schleiferl();
+					BierMinton frame = new BierMinton();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
