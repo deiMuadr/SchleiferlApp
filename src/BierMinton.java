@@ -285,7 +285,7 @@ public class BierMinton extends JFrame {
 			grid.anchor = GridBagConstraints.LINE_START;
 			inputArea.add(this.labelCourts[y], grid);
 
-			// Lavel f\u00FCr erste Paarung
+			// Label f\u00FCr erste Paarung
 			this.labelA[y] = new JLabel("");
 			grid.gridx = 1;
 			grid.gridy = yVal;
@@ -303,9 +303,10 @@ public class BierMinton extends JFrame {
 			grid.gridy = yVal;
 			inputArea.add(this.labelB[y], grid);
 
-			// Label f\u00FCr Ergebnis erste Paarung
+			// Textfeld f\u00FCr Ergebnis erste Paarung
 			this.inputResultA[y] = new JTextField();
 			this.inputResultA[y].setPreferredSize(new Dimension(50, 24));
+			this.inputResultA[y].setDocument(onlyInteger());
 			grid.gridx = 4;
 			grid.gridy = yVal;
 			inputArea.add(this.inputResultA[y], grid);
@@ -315,9 +316,10 @@ public class BierMinton extends JFrame {
 			grid.gridy = yVal;
 			inputArea.add(vsR[y], grid);
 
-			// Label f\u00FCr Ergebnis zweite Paarung
+			// Textfeld f\u00FCr Ergebnis zweite Paarung
 			this.inputResultB[y] = new JTextField();
 			this.inputResultB[y].setPreferredSize(new Dimension(50, 24));
+			this.inputResultB[y].setDocument(onlyInteger());
 			grid.gridx = 6;
 			grid.gridy = yVal;
 			inputArea.add(this.inputResultB[y], grid);
