@@ -28,7 +28,16 @@ public class Log {
 	 */
 	public void addLog(int round, String[] teamA, String[] teamB, int resultA, int resultB) {
 
-		Boolean exists = true;
+		//if round does not exists, create containers for values
+		if (round != rounds.length()) {
+			JSONArray newMatches = new JSONArray();
+			JSONObject newRound = new JSONObject();
+			newRound.put("round", round);
+			newRound.put("matches", newMatches);
+
+			// Append created round
+			this.rounds.put(newRound);
+		}
 
 		// Add teamA to match
 		JSONObject newMatch = new JSONObject();
@@ -41,39 +50,15 @@ public class Log {
 		newMatch.put("resultA", resultA);
 		newMatch.put("resultB", resultB);
 
-		// set boolean to indicate if round is already existing
-		if (round != rounds.length()) {
-			exists = false;
-		}
-
-		// If round not exists, create round
-		if (!exists) {
-			// Add match to matches
-			JSONArray newMatches = new JSONArray();
-			newMatches.put(newMatch);
-
-			// New round
-			JSONObject newRound = new JSONObject();
-			newRound.put("round", round);
-			newRound.put("matches", newMatches);
-
-			// Append to existing round or create new round
-			this.rounds.put(newRound);
-
-		}
-
-		// If round exists - append match
+		// append matches to current round
 		for (int r = 0; r < this.rounds.length(); r++) {
 			if (this.rounds.getJSONObject(r).get("round").equals(round)) {
-				if (exists) {
-
-					this.rounds.getJSONObject(rounds.length() - 1).getJSONArray("matches").put(newMatch);
-					exists = true;
+				this.rounds.getJSONObject(rounds.length() - 1).getJSONArray("matches").put(newMatch);
 				}
 			}
+			//update file in the end.
 			this.createUpdateJSONFile();
 		}
-	}
 
 	/*
 	 * Create and update JSON file
