@@ -8,28 +8,29 @@ public class Log {
 
 	private Calculations calc = Calculations.getInstance();
 	private JSONArray rounds;
+	private String timestamp;
 
+	/**
+	 * Constructor
+	 */
 	public Log() {
 		this.rounds = new JSONArray();
+		this.timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()).toString();
 	}
 
-	/*
+	/**
 	 * Add log entry
 	 * 
-	 * @Int round
-	 * 
-	 * @String[] teamA
-	 * 
-	 * @String[] teamB
-	 * 
-	 * @Int resultA
-	 * 
-	 * @Int resultB
+	 * @param  	Int 		round
+	 * @param 	String[] 	teamA
+	 * @param 	String[] 	teamB
+	 * @param	Int 		resultA
+	 * @param	Int 		resultB
 	 */
 	public void addLog(int round, String[] teamA, String[] teamB, int resultA, int resultB) {
 
 		//if round does not exists, create containers for values
-		if (round != rounds.length()) {
+		if (round != this.rounds.length()) {
 			JSONArray newMatches = new JSONArray();
 			JSONObject newRound = new JSONObject();
 			newRound.put("round", round);
@@ -60,14 +61,14 @@ public class Log {
 			this.createUpdateJSONFile();
 		}
 
-	/*
+	/**
 	 * Create and update JSON file
 	 */
 	private void createUpdateJSONFile() {
 
 		FileWriter file = null;
 		try {
-			file = new FileWriter("log_" + new SimpleDateFormat("MM-dd-yyyy").format(new Date()).toString() + ".json");
+			file = new FileWriter("log_" + this.timestamp + ".json");
 			file.write(this.rounds.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,10 +86,10 @@ public class Log {
 	}
 
 	/**
-	 * add members and results to the JSONArray
+	 * Add members and results to the JSONArray
 	 * 
-	 * @param team Team of Court
-	 * @return Array entry inluding data of the team
+	 * @param 	String[] 	team Team of Court
+	 * @return 	JSONArray 	entry inluding data of the team
 	 */
 	public JSONArray addMembers(String[] team) {
 
