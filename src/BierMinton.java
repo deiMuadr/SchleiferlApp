@@ -1,3 +1,4 @@
+
 /*
  ******************************************************************
  Copyright (c) 2017 Simon Kn\u00F6dler
@@ -49,54 +50,57 @@ import javax.swing.table.*;
 public class BierMinton extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// Global Classes
-	private Calculations 		calc = Calculations.getInstance();
-	private Log 				log = new Log();
+	private Calculations calc = Calculations.getInstance();
+	private Log log = new Log();
 
 	// Global Panels
-	private JPanel 				panelLayout;
-	private JPanel 				panelOrder;
-	private JPanel 				panelMatches;
-	private JPanel 				panelNames;
+	private JPanel panelLayout;
+	private JPanel panelOrder;
+	private JPanel panelMatches;
+	private JPanel panelNames;
 
 	// Global Labels
-	private JLabel 				labelNumberOfPlayers;
-	private JLabel 				labelNumberOfRounds;
-	private JLabel[] 			labelA;
-	private JLabel[] 			labelB;
-	private JLabel[] 			labelCourts;
-	private JLabel[] 			labelPlayer;
+	private JLabel labelNumberOfPlayers;
+	private JLabel labelNumberOfRounds;
+	private JLabel[] labelA;
+	private JLabel[] labelB;
+	private JLabel[] labelCourts;
+	private JLabel[] labelPlayer;
 
 	// Global Input Fields
-	private JTextField[] 		inputResultA;
-	private JTextField[] 		inputResultB;
-	private JTextField[] 		inputPlayer;
+	private JTextField[] inputResultA;
+	private JTextField[] inputResultB;
+	private JTextField[] inputPlayer;
 
 	// Global Buttons
-	private JButton 			buttonReset;
-	private JButton 			buttonEndRound;
-	private JButton 			buttonNextRound;
-	private JButton 			buttonAdd;
-	private JButton 			buttonStart;
+	private JButton buttonReset;
+	private JButton buttonEndRound;
+	private JButton buttonNextRound;
+	private JButton buttonAdd;
+	private JButton buttonStart;
 
 	// Global Radio Buttons / Radio Button Groups
-	private JRadioButton 		radioTopTop;
-	private JRadioButton 		radioTopBottom;
-	private ButtonGroup 		buttonGroupMode;
+	private JRadioButton radioTopTop;
+	private JRadioButton radioTopBottom;
+	private ButtonGroup buttonGroupMode;
 
 	// Global Models
-	private DefaultTableModel 	model = new DefaultTableModel();
+	private DefaultTableModel model = new DefaultTableModel();
 
 	// Global Tables
-	private JTable 				tblOrder = new JTable(model);
+	private JTable tblOrder = new JTable(model);
 
 	// Global Variables
-	private int 				pointsVictory = 2; 		// Points of Victory
-	private int 				pointsDraw = 1;			// Points of Draw
-	private int 				pointsLost = 0; 		// Points of Lost
-	private int					numberOfCourts = 6;		// Number of Courts to play
-	private int					numberAddPlayers = 10;	// Number of Player Inputs on Start Screen
+	private int pointsVictory = 2; // Points of Victory
+	private int pointsDraw = 1; // Points of Draw
+	private int pointsLost = 0; // Points of Lost
+	private int numberOfCourts = 6; // Number of Courts to play
+	private int numberAddPlayers = 10; // Number of Player Inputs on Start Screen
+	private ArrayList<JTextField> resultsFields = new ArrayList<JTextField>(); // Arraylist of all result text fields
+	private boolean isEnded; // Dient zur Identifikation, dass Ergebnisse nach editieren nicht doppelt
+								// gezählt werden.
 
 	/**
 	 * Constructor Method
@@ -130,10 +134,10 @@ public class BierMinton extends JFrame {
 
 		this.panelLayout = new JPanel();
 		this.panelLayout.setLayout(new GridBagLayout());
-        grid.gridx = grid.gridy = 0;
-        grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
-        add(this.panelLayout, grid);
+		grid.gridx = grid.gridy = 0;
+		grid.weightx = grid.weighty = 1;
+		grid.fill = GridBagConstraints.BOTH;
+		add(this.panelLayout, grid);
 
 		// Add Sections
 		this.initOrder();
@@ -143,9 +147,9 @@ public class BierMinton extends JFrame {
 		this.panelNames.setVisible(true);
 
 		pack();
-        setSize(new Dimension(1400, 800));
-        setMinimumSize(new Dimension(800, 600));
-        setVisible(true);
+		setSize(new Dimension(1400, 800));
+		setMinimumSize(new Dimension(800, 600));
+		setVisible(true);
 
 	}
 
@@ -154,24 +158,24 @@ public class BierMinton extends JFrame {
 	 */
 	private void initOrder() {
 
-		//Panel f\u00FCr Rangliste vorbereiten
+		// Panel f\u00FCr Rangliste vorbereiten
 		GridBagConstraints grid = new GridBagConstraints();
 		this.panelOrder = new JPanel();
 		this.panelOrder.setLayout(new GridBagLayout());
 		grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
+		grid.fill = GridBagConstraints.BOTH;
 
-        //Abst\u00E4nde zum Panelrand
+		// Abst\u00E4nde zum Panelrand
 		grid.insets = new Insets(5, 5, 5, 5);
-        this.panelLayout.add(panelOrder, grid);
+		this.panelLayout.add(panelOrder, grid);
 		grid.insets = new Insets(0, 0, 0, 0);
 
-        //\u00DCberschrift f\u00FCr Ranglistentabelle
+		// \u00DCberschrift f\u00FCr Ranglistentabelle
 		JPanel header = new JPanel();
 		header.setLayout(new GridBagLayout());
 		grid.weightx = grid.weighty = 0;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        this.panelOrder.add(header, grid);
+		grid.fill = GridBagConstraints.HORIZONTAL;
+		this.panelOrder.add(header, grid);
 		JLabel labelRangliste = new JLabel("<html><h1>Rangliste</h1></html>");
 		grid.gridx = grid.gridy = 0;
 		header.add(labelRangliste, grid);
@@ -180,12 +184,12 @@ public class BierMinton extends JFrame {
 		contentTable.setLayout(new GridBagLayout());
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
-        grid.insets = new Insets(5, 5, 5, 5);
-        this.panelOrder.add(contentTable, grid);
-        grid.insets = new Insets(0, 0, 0, 0);
+		grid.fill = GridBagConstraints.BOTH;
+		grid.insets = new Insets(5, 5, 5, 5);
+		this.panelOrder.add(contentTable, grid);
+		grid.insets = new Insets(0, 0, 0, 0);
 
-        //Tabelle initialisieren
+		// Tabelle initialisieren
 		initTblOrder(calc.getPlayerMatrix());
 		JScrollPane scrollpane = new JScrollPane();
 		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -200,25 +204,25 @@ public class BierMinton extends JFrame {
 	 */
 	private void initMatches() {
 
-		//Panel f\u00FCr Spieler vorbereiten
+		// Panel f\u00FCr Spieler vorbereiten
 		GridBagConstraints grid = new GridBagConstraints();
 		this.panelMatches = new JPanel();
 		this.panelMatches.setLayout(new GridBagLayout());
 		grid.gridx = 1;
 		grid.gridy = 0;
 		grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
+		grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
-        this.panelLayout.add(this.panelMatches, grid);
+		this.panelLayout.add(this.panelMatches, grid);
 		grid.insets = new Insets(0, 0, 0, 0);
 
-        //\u00DCberschriften f\u00FCr Spielfelder und Ergebnisse
+		// \u00DCberschriften f\u00FCr Spielfelder und Ergebnisse
 		JPanel header = new JPanel();
 		header.setLayout(new GridBagLayout());
 		grid.gridx = 0;
 		grid.weighty = 0;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        this.panelMatches.add(header, grid);
+		grid.fill = GridBagConstraints.HORIZONTAL;
+		this.panelMatches.add(header, grid);
 
 		JLabel labelResults = new JLabel("<html><h1>Ergebnisse</h1></html>");
 		grid.gridx = 0;
@@ -229,8 +233,8 @@ public class BierMinton extends JFrame {
 		contentMatches.setLayout(new GridBagLayout());
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
-        this.panelMatches.add(contentMatches, grid);
+		grid.fill = GridBagConstraints.BOTH;
+		this.panelMatches.add(contentMatches, grid);
 
 		JPanel inputArea = new JPanel();
 		inputArea.setLayout(new GridBagLayout());
@@ -252,7 +256,7 @@ public class BierMinton extends JFrame {
 		grid.gridwidth = 3;
 		inputArea.add(labelResult, grid);
 
-		//Spielfelder und Paarungen zuweisen
+		// Spielfelder und Paarungen zuweisen
 		this.labelCourts = new JLabel[this.numberOfCourts];
 		this.labelA = new JLabel[this.numberOfCourts];
 		this.labelB = new JLabel[this.numberOfCourts];
@@ -261,19 +265,18 @@ public class BierMinton extends JFrame {
 		JLabel[] vsT = new JLabel[this.numberOfCourts];
 		JLabel[] vsR = new JLabel[this.numberOfCourts];
 
-
 		int index = 0;
 		for (int y = 0; y < this.numberOfCourts; y++) {
 
-			if ((index >= calc.getPlayerList().size()) || ((calc.getPlayerList().size() - index ) == 1)) {
+			if ((index >= calc.getPlayerList().size()) || ((calc.getPlayerList().size() - index) == 1)) {
 				break;
-			} else if ((calc.getPlayerList().size()  - index) >= 4) {
+			} else if ((calc.getPlayerList().size() - index) >= 4) {
 				index += 4;
 			} else {
 				index += 2;
 			}
 
-			//Label f\u00FCr Spielfeld
+			// Label f\u00FCr Spielfeld
 			int yVal = y + 1;
 			this.labelCourts[y] = new JLabel("<html><h4>Feld " + yVal + "</h4></html>");
 			grid.gridx = 0;
@@ -282,28 +285,27 @@ public class BierMinton extends JFrame {
 			grid.anchor = GridBagConstraints.LINE_START;
 			inputArea.add(this.labelCourts[y], grid);
 
-			//Lavel f\u00FCr erste Paarung
+			// Lavel f\u00FCr erste Paarung
 			this.labelA[y] = new JLabel("");
 			grid.gridx = 1;
 			grid.gridy = yVal;
 			grid.anchor = GridBagConstraints.CENTER;
 			inputArea.add(this.labelA[y], grid);
 
-
 			vsT[y] = new JLabel(":");
 			grid.gridx = 2;
 			grid.gridy = yVal;
 			inputArea.add(vsT[y], grid);
 
-			//Label f\u00FCr zweite Paarung
+			// Label f\u00FCr zweite Paarung
 			this.labelB[y] = new JLabel("");
 			grid.gridx = 3;
 			grid.gridy = yVal;
 			inputArea.add(this.labelB[y], grid);
 
-			//Label f\u00FCr Ergebnis erste Paarung
+			// Label f\u00FCr Ergebnis erste Paarung
 			this.inputResultA[y] = new JTextField();
-			this.inputResultA[y].setPreferredSize( new Dimension( 50, 24 ) );
+			this.inputResultA[y].setPreferredSize(new Dimension(50, 24));
 			grid.gridx = 4;
 			grid.gridy = yVal;
 			inputArea.add(this.inputResultA[y], grid);
@@ -313,9 +315,9 @@ public class BierMinton extends JFrame {
 			grid.gridy = yVal;
 			inputArea.add(vsR[y], grid);
 
-			//Label f\u00FCr Ergebnis zweite Paarung
+			// Label f\u00FCr Ergebnis zweite Paarung
 			this.inputResultB[y] = new JTextField();
-			this.inputResultB[y].setPreferredSize( new Dimension( 50, 24 ) );
+			this.inputResultB[y].setPreferredSize(new Dimension(50, 24));
 			grid.gridx = 6;
 			grid.gridy = yVal;
 			inputArea.add(this.inputResultB[y], grid);
@@ -329,7 +331,7 @@ public class BierMinton extends JFrame {
 		grid.gridy = 2;
 		grid.weighty = 0;
 		grid.fill = GridBagConstraints.HORIZONTAL;
-        this.panelMatches.add(actionArea, grid);
+		this.panelMatches.add(actionArea, grid);
 
 		this.labelNumberOfRounds = new JLabel("Gespielte Runden: 0");
 		grid.gridy = 0;
@@ -359,7 +361,7 @@ public class BierMinton extends JFrame {
 		grid.gridy = 4;
 		grid.fill = GridBagConstraints.NONE;
 		grid.anchor = GridBagConstraints.LINE_END;
-        actionArea.add(buttons, grid);
+		actionArea.add(buttons, grid);
 
 		// this.buttonReset = new JButton("Reset");
 		// grid.anchor = GridBagConstraints.CENTER;
@@ -384,45 +386,45 @@ public class BierMinton extends JFrame {
 	 */
 	private void initPlayers() {
 
-		//Panel vorbereiten
+		// Panel vorbereiten
 		GridBagConstraints grid = new GridBagConstraints();
 
 		this.panelNames = new JPanel();
 		this.panelNames.setLayout(new GridBagLayout());
 		grid.gridx = 1;
 		grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
+		grid.fill = GridBagConstraints.BOTH;
 		grid.insets = new Insets(5, 5, 5, 5);
-        this.panelLayout.add(this.panelNames, grid);
+		this.panelLayout.add(this.panelNames, grid);
 		grid.insets = new Insets(0, 0, 0, 0);
 
-        //Header einf\u00FCgen f\u00FCr die Teilnehmeransicht
+		// Header einf\u00FCgen f\u00FCr die Teilnehmeransicht
 		JPanel header = new JPanel();
 		header.setLayout(new GridBagLayout());
 		grid.gridx = 0;
 		grid.weightx = grid.weighty = 0;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        this.panelNames.add(header, grid);
+		grid.fill = GridBagConstraints.HORIZONTAL;
+		this.panelNames.add(header, grid);
 		JLabel labelAddPlayer = new JLabel("<html><h1>Teilnehmer hinzuf\u00FCgen</h1></html>");
 		header.add(labelAddPlayer, grid);
 
-		//Panel zur Spielereingabe
+		// Panel zur Spielereingabe
 		JPanel contentNames = new JPanel();
 		contentNames.setLayout(new GridBagLayout());
 		grid.gridy = 1;
 		grid.weightx = grid.weighty = 1;
-        grid.fill = GridBagConstraints.BOTH;
-        this.panelNames.add(contentNames, grid);
+		grid.fill = GridBagConstraints.BOTH;
+		this.panelNames.add(contentNames, grid);
 
-        //Panel welches die Felder zur Spielereingabe bereitstellt
+		// Panel welches die Felder zur Spielereingabe bereitstellt
 		JPanel inputArea = new JPanel();
 		inputArea.setLayout(new GridBagLayout());
 		grid.gridy = 0;
 		grid.fill = GridBagConstraints.NONE;
 		grid.anchor = GridBagConstraints.FIRST_LINE_START;
-        contentNames.add(inputArea, grid);
+		contentNames.add(inputArea, grid);
 
-        //Labels und Textfelder auf das Panel hinzuf\u00FCgen zur Spielereingabe
+		// Labels und Textfelder auf das Panel hinzuf\u00FCgen zur Spielereingabe
 		this.labelPlayer = new JLabel[this.numberAddPlayers];
 		this.inputPlayer = new JTextField[this.numberAddPlayers];
 		for (int y = 0; y < this.numberAddPlayers; y++) {
@@ -435,7 +437,7 @@ public class BierMinton extends JFrame {
 			inputArea.add(this.labelPlayer[y], grid);
 
 			this.inputPlayer[y] = new JTextField();
-			this.inputPlayer[y].setPreferredSize( new Dimension( 200, 24 ) );
+			this.inputPlayer[y].setPreferredSize(new Dimension(200, 24));
 			grid.gridx = 1;
 			grid.insets = new Insets(5, 5, 5, 5);
 			inputArea.add(this.inputPlayer[y], grid);
@@ -443,40 +445,41 @@ public class BierMinton extends JFrame {
 
 		}
 
-		//Panel f\u00FCr Hinweise und Spielsteuerung \u00FCber Buttons
+		// Panel f\u00FCr Hinweise und Spielsteuerung \u00FCber Buttons
 		JPanel actionArea = new JPanel();
 		actionArea.setLayout(new GridBagLayout());
 		grid.gridx = 0;
 		grid.gridy = 2;
 		grid.weightx = grid.weighty = 0;
-        grid.fill = GridBagConstraints.HORIZONTAL;
-        this.panelNames.add(actionArea, grid);
+		grid.fill = GridBagConstraints.HORIZONTAL;
+		this.panelNames.add(actionArea, grid);
 
-        //Hinweise zur Bedienung
+		// Hinweise zur Bedienung
 		JPanel notes = new JPanel();
 		notes.setLayout(new GridBagLayout());
 		notes.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Hinweis"));
 		grid.gridy = 0;
 		grid.weightx = 1;
-        actionArea.add(notes, grid);
-		JLabel labelNote = new JLabel("<html><p>Felder k\u00F6nnen beliebig oft bef\u00FCllt werden.<br>Durch hinzuf\u00FCgen werden die Spieler gespeichert<br>und neue k\u00F6nnen eingegeben werden.</p></html>");
+		actionArea.add(notes, grid);
+		JLabel labelNote = new JLabel(
+				"<html><p>Felder k\u00F6nnen beliebig oft bef\u00FCllt werden.<br>Durch hinzuf\u00FCgen werden die Spieler gespeichert<br>und neue k\u00F6nnen eingegeben werden.</p></html>");
 		grid.fill = GridBagConstraints.NONE;
 		grid.anchor = GridBagConstraints.LINE_START;
 		notes.add(labelNote, grid);
 
-		//Anzeigen der Spieleranzahl
+		// Anzeigen der Spieleranzahl
 		this.labelNumberOfPlayers = new JLabel("Anzahl Spieler: 0");
 		grid.gridy = 1;
 		actionArea.add(labelNumberOfPlayers, grid);
 
-		//Buttons initiieren
+		// Buttons initiieren
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridBagLayout());
 		grid.gridy = 2;
 		grid.anchor = GridBagConstraints.LINE_END;
-        actionArea.add(buttons, grid);
+		actionArea.add(buttons, grid);
 
-        //Button zum Hinzuf\u00FCgen von Spielern
+		// Button zum Hinzuf\u00FCgen von Spielern
 		this.buttonAdd = new JButton("Hinzuf\u00FCgen");
 		grid.weightx = grid.weighty = 0;
 		grid.fill = GridBagConstraints.BOTH;
@@ -486,7 +489,7 @@ public class BierMinton extends JFrame {
 		grid.insets = new Insets(0, 0, 0, 0);
 		this.buttonAdd.addMouseListener(listenerHinzu);
 
-		//Button um das Turnier zu starten
+		// Button um das Turnier zu starten
 		this.buttonStart = new JButton("Turnier starten");
 		grid.gridx = 1;
 		grid.insets = new Insets(5, 5, 5, 5);
@@ -499,8 +502,7 @@ public class BierMinton extends JFrame {
 	/**
 	 * MOdel f\u00FCr Table festlegen mit den Spielern als Rangliste bzw. Eintragen
 	 *
-	 * @param entries
-	 *            Spieler mit Infos
+	 * @param entries Spieler mit Infos
 	 */
 	private void initTblOrder(String[][] entries) {
 		String colNames[] = { "Platz", "Name", "Punkte", "Differenz" };
@@ -534,28 +536,30 @@ public class BierMinton extends JFrame {
 			int doubleTeams = calc.getTempListFirstPlayers().size() - singlePlayers;
 			int index = 0;
 
-			//Pr\u00FCfen ob es Einzelspieler gibt
+			// Pr\u00FCfen ob es Einzelspieler gibt
 			int newSinglePlayers = doubleTeams;
 			for (int i = 0; i < singlePlayers; i++) {
 				newSinglePlayers++;
 			}
 			singlePlayers = newSinglePlayers;
 
-			//Mit Doppelpaarungen anfagen und die Spielfelder bef\u00FCllen
+			// Mit Doppelpaarungen anfagen und die Spielfelder bef\u00FCllen
 			int court = 0;
 			if (doubleTeams != 0) {
 				while (court < this.numberOfCourts) {
 					if (index >= doubleTeams) {
 						break;
 					}
-					labelA[court].setText(calc.getTempListFirstPlayers().get(index).getName() + " + " + calc.getTempListSecondPlayers().get(index).getName());
+					labelA[court].setText(calc.getTempListFirstPlayers().get(index).getName() + " + "
+							+ calc.getTempListSecondPlayers().get(index).getName());
 					index++;
-					labelB[court].setText(calc.getTempListFirstPlayers().get(index).getName() + " + " + calc.getTempListSecondPlayers().get(index).getName());
+					labelB[court].setText(calc.getTempListFirstPlayers().get(index).getName() + " + "
+							+ calc.getTempListSecondPlayers().get(index).getName());
 					index++;
 					court++;
 				}
 			}
-			//Falls es Einzelspieler gibt, Felder mit Einzelspieler f\u00FCllen.
+			// Falls es Einzelspieler gibt, Felder mit Einzelspieler f\u00FCllen.
 			if (singlePlayers != 0) {
 				while (court < this.numberOfCourts) {
 					if (index >= singlePlayers) {
@@ -582,7 +586,7 @@ public class BierMinton extends JFrame {
 			}
 
 			for (Player p : calc.getTempListPausedPlayers()) {
-				//Aussetzende Spieler am Ende auch updaten und Punkte f\u00FCr gutschreiben
+				// Aussetzende Spieler am Ende auch updaten und Punkte f\u00FCr gutschreiben
 				p.setPoints(p.getPoints() + pointsVictory);
 				calc.getPlayerList().add(p);
 			}
@@ -601,9 +605,9 @@ public class BierMinton extends JFrame {
 		for (int player = 0; player < numberAddPlayers; player++) {
 			if (!inputPlayer[player].getText().isEmpty()) {
 				Player playertmp = new Player(inputPlayer[player].getText());
-				//Spieler zur Spielerliste hinzuf\u00FCgen
+				// Spieler zur Spielerliste hinzuf\u00FCgen
 				calc.addPlayer(playertmp);
-				//Spieler in die Rangliste hinzuf\u00FCgen
+				// Spieler in die Rangliste hinzuf\u00FCgen
 				playerToAdd[0] = String.valueOf(playertmp.getPlatz());
 				playerToAdd[1] = playertmp.getName();
 				playerToAdd[2] = String.valueOf(playertmp.getPoints());
@@ -611,10 +615,10 @@ public class BierMinton extends JFrame {
 				model.addRow(playerToAdd);
 				playerToAdd = new String[4];
 			}
-			//Reset f\u00FCr n\u00E4chsten Spieler
+			// Reset f\u00FCr n\u00E4chsten Spieler
 			inputPlayer[player].setText("");
 		}
-		//2. Tabelle updaten
+		// 2. Tabelle updaten
 		model.fireTableDataChanged();
 		model.fireTableStructureChanged();
 		this.labelNumberOfPlayers.setText("Anzahl Spieler: " + Integer.toString(calc.getPlayerList().size()));
@@ -623,6 +627,7 @@ public class BierMinton extends JFrame {
 
 	/**
 	 * Pr\u00FCft, ob in die Ergebnisfelder nur Integer eingegeben werden
+	 * 
 	 * @return
 	 */
 	private Document onlyInteger() {
@@ -634,8 +639,7 @@ public class BierMinton extends JFrame {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void insertString(int offs, String str, AttributeSet a)
-					throws BadLocationException {
+			public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 				if (str.matches("[0-9]")) {
 					super.insertString(offs, str, a);
 				} else {
@@ -732,13 +736,11 @@ public class BierMinton extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 
-			// 0. pr\u00FCfen, ob wirklich beendet werden soll und Eingaben korrekt
-			// sind.
+			// 0. pr\u00FCfen, ob wirklich beendet werden soll und Eingaben korrekt sind.
 			// TODO: pr\u00FCfung wieder enablen, am Ende.
-			// int option = JOptionPane.showConfirmDialog(null,
-			// "Sind alle Spiele korrekt eingegeben?", "Best\u00E4tigung",
-			// JOptionPane.YES_NO_OPTION );
-			// if (option == 0) {
+//			int option = JOptionPane.showConfirmDialog(null, "Sind alle Spiele korrekt eingegeben?", "Best\u00E4tigung",
+//					JOptionPane.YES_NO_OPTION);
+//			if (option == 0) {
 
 			// Table model leeren
 			model.setRowCount(0);
@@ -754,12 +756,13 @@ public class BierMinton extends JFrame {
 				playerNamesA = new String[2];
 				playerNamesB = new String[2];
 
-				//break, sobald alle Player/Courts durchlaufen sind
+				// break, sobald alle Player/Courts durchlaufen sind
 				if (index >= calc.getPlayerList().size()) {
 					break;
 				}
 
-				//Falls kein Ergebnis eingetragen ist, muss 0 gesetzt werden, damit die Kalkulation fehlerfrei funktioniert
+				// Falls kein Ergebnis eingetragen ist, muss 0 gesetzt werden, damit die
+				// Kalkulation fehlerfrei funktioniert
 				if (inputResultA[court].getText().isEmpty()) {
 					inputResultA[court].setText("0");
 				}
@@ -774,19 +777,21 @@ public class BierMinton extends JFrame {
 					playerNamesA[0] = labelA[court].getText();
 				}
 
-				//Punkte f\u00FCr Ergebnis berechnen von Spielern A
+				// Punkte f\u00FCr Ergebnis berechnen von Spielern A
 				if (Integer.parseInt(inputResultA[court].getText()) > Integer.parseInt(inputResultB[court].getText())) {
 					result = pointsVictory;
-				} else if (Integer.parseInt(inputResultA[court].getText()) < Integer.parseInt(inputResultB[court].getText())) {
+				} else if (Integer.parseInt(inputResultA[court].getText()) < Integer
+						.parseInt(inputResultB[court].getText())) {
 					result = pointsLost;
 				} else {
 					result = pointsDraw;
 				}
 
-				//Punkte in die Spielerstatistik von A kalkulieren und schreiben.
+				// Punkte in die Spielerstatistik von A kalkulieren und schreiben.
 				for (String playerName : playerNamesA) {
 					if (playerName != null && !playerName.isEmpty()) {
-						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultA[court].getText()) - Integer.parseInt(inputResultB[court].getText()));
+						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultA[court].getText())
+								- Integer.parseInt(inputResultB[court].getText()));
 						index++;
 					}
 				}
@@ -798,27 +803,35 @@ public class BierMinton extends JFrame {
 					playerNamesB[0] = labelB[court].getText();
 				}
 
-				//Punkte f\u00FCr Ergebnis berechnen von Spielern B
+				// Punkte f\u00FCr Ergebnis berechnen von Spielern B
 				if (Integer.parseInt(inputResultB[court].getText()) > Integer.parseInt(inputResultA[court].getText())) {
 					result = pointsVictory;
-				} else if (Integer.parseInt(inputResultB[court].getText()) < Integer.parseInt(inputResultA[court].getText())) {
+				} else if (Integer.parseInt(inputResultB[court].getText()) < Integer
+						.parseInt(inputResultA[court].getText())) {
 					result = pointsLost;
 				} else {
 					result = pointsDraw;
 				}
 
-				//Punkte in die Spielerstatistik von B kalkulieren und schreiben.
+				// Punkte in die Spielerstatistik von B kalkulieren und schreiben.
 				for (String playerName : playerNamesB) {
 					if (playerName != null && !playerName.isEmpty()) {
-						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultB[court].getText()) - Integer.parseInt(inputResultA[court].getText()));
+						calc.calculateNewStatistics(playerName, result, Integer.parseInt(inputResultB[court].getText())
+								- Integer.parseInt(inputResultA[court].getText()));
 						index++;
 					}
 				}
 
-				log.addLog(calc.getGespielteRunden() + 1, playerNamesA, playerNamesB, Integer.parseInt(inputResultA[court].getText()), Integer.parseInt(inputResultB[court].getText()));
+				log.addLog(calc.getGespielteRunden() + 1, playerNamesA, playerNamesB,
+						Integer.parseInt(inputResultA[court].getText()),
+						Integer.parseInt(inputResultB[court].getText()));
 
 				inputResultA[court].setEditable(false);
 				inputResultB[court].setEditable(false);
+
+				// Alle Felder in eine Liste schreiben (aktuell für den Edit-Button benötigt)
+				resultsFields.add(inputResultA[court]);
+				resultsFields.add(inputResultB[court]);
 			}
 
 			calc.sortPlayerList();
@@ -841,7 +854,9 @@ public class BierMinton extends JFrame {
 			buttonNextRound.setEnabled(true);
 			calc.setGespielteRunden(calc.getGespielteRunden() + 1);
 			labelNumberOfRounds.setText("Gespielte Runden: " + Integer.toString(calc.getGespielteRunden()));
+
 		}
+//		}
 	};
 
 	MouseListener nextRound = new MouseListener() {
@@ -869,9 +884,9 @@ public class BierMinton extends JFrame {
 			int index = 0;
 			for (int court = 0; court < numberOfCourts; court++) {
 
-				if ((index >= calc.getPlayerList().size()) || ((calc.getPlayerList().size()  - index) == 1)) {
+				if ((index >= calc.getPlayerList().size()) || ((calc.getPlayerList().size() - index) == 1)) {
 					break;
-				} else if ((calc.getPlayerList().size()  - index) >= 4) {
+				} else if ((calc.getPlayerList().size() - index) >= 4) {
 					index += 4;
 				} else {
 					index += 2;
@@ -888,14 +903,16 @@ public class BierMinton extends JFrame {
 
 			buttonEndRound.setEnabled(true);
 			buttonNextRound.setEnabled(false);
+
 		}
 	};
 
 	/**
-	 * l\u00F6scht alle Listen und setzt alles auf 0; Anfangsbildschirm zum eingeben der Spieler wird angezeigt.
+	 * l\u00F6scht alle Listen und setzt alles auf 0; Anfangsbildschirm zum eingeben
+	 * der Spieler wird angezeigt.
 	 */
 	MouseListener reset = new MouseListener() {
-		//TODO: Implement
+		// TODO: Implement
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
 		}
@@ -921,8 +938,7 @@ public class BierMinton extends JFrame {
 	/**
 	 * Main methode
 	 *
-	 * @param args
-	 *            args
+	 * @param args args
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
