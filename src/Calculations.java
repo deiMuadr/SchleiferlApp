@@ -53,6 +53,7 @@ public class Calculations {
 	// Global integers
 	private int gespielteRunden;
 	private int NumOfPlayers = playerList.size();
+	private int numOfcourts;
 	
 
     // Constructor is now private
@@ -278,8 +279,7 @@ public class Calculations {
 			// bei ungerader Anzahl oder mehr wie 24 Spieler die \u00F6brigen Spieler
 			// in die Paused-Liste
 			// schreiben und aus PlayerList l\u00F6schen
-			//TODO: bei nicht 6 Feldern muss die 12 entsprechend angepasst werden.
-			if (playerList.size() == 1 || tempListFirstPlayers.size() >= 12) {
+			if (playerList.size() == 1 || tempListFirstPlayers.size() >= this.numOfcourts * 2) {
 				int x = playerList.size();
 				while (x > 0) {
 					tempListPausedPlayers.add(playerList.get(0));
@@ -290,9 +290,9 @@ public class Calculations {
 				}
 			}
 		}
-		for (Player p : tempListPausedPlayers) {
-			System.out.println(p.getName());
-		}
+//		for (Player p : tempListPausedPlayers) {
+//			System.out.println(p.getName());
+//		}
 	}
 
 	/**
@@ -398,96 +398,104 @@ public class Calculations {
 	public void setGespielteRunden(int gespielteRunden) {
 		this.gespielteRunden = gespielteRunden;
 	}
+	
+	public int getNumOfcourts() {
+		return numOfcourts;
+	}
 
-	public static void main(String[] args) {
-		Player p1 = new Player("A");
-		Player p2 = new Player("B");
-		Player p3 = new Player("C");
-		Player p4 = new Player("D");
-		Player p5 = new Player("E");
-		Player p6 = new Player("F");
-		Player p7 = new Player("G");
-		Player p8 = new Player("H");
-		Player p9 = new Player("I");
-		Player p10 = new Player("J");
-		Player p11 = new Player("k");
-		Player p12 = new Player("l");
-		Player p13 = new Player("m");
-		Player p14 = new Player("n");
-		Player p15 = new Player("o");
-		Player p16 = new Player("p");
-		Player p17 = new Player("q");
-		Player p18 = new Player("r");
-		Player p19 = new Player("s");
-		Player p20 = new Player("t");
-		Player p21 = new Player("u");
-		Player p22 = new Player("v");
-		Player p23 = new Player("w");
-		Player p24 = new Player("x");
-		Player p25 = new Player("y");
-		Player p26 = new Player("z");
-		Player p27 = new Player("1");
-		Player p28 = new Player("2");
-		Player p29 = new Player("3");
+	public void setNumOfcourts(int numOfcourts) {
+		this.numOfcourts = numOfcourts;
+	}
 
-		Calculations c = new Calculations();
-		c.addPlayer(p1);
-		c.addPlayer(p2);
-		c.addPlayer(p3);
-		c.addPlayer(p4);
-		c.addPlayer(p5);
-		c.addPlayer(p6);
-		c.addPlayer(p7);
-		c.addPlayer(p8);
-		c.addPlayer(p9);
-		c.addPlayer(p10);
-		c.addPlayer(p11);
-		c.addPlayer(p12);
-		c.addPlayer(p13);
-		c.addPlayer(p14);
-		c.addPlayer(p15);
-		c.addPlayer(p16);
-		c.addPlayer(p17);
-		c.addPlayer(p18);
-		c.addPlayer(p19);
-		c.addPlayer(p20);
-		c.addPlayer(p21);
-		c.addPlayer(p22);
-		c.addPlayer(p23);
-		c.addPlayer(p24);
-		c.addPlayer(p25);
-		c.addPlayer(p26);
-		c.addPlayer(p27);
-		c.addPlayer(p28);
-		c.addPlayer(p29);
-
-		c.createPairsTopandBottom();
-		for (Player p : c.getTempListPausedPlayers()) {
-			System.out.println(p.getName());
-		}
-		System.out.println();
-
-		c.createPairsTopandBottom();
-		for (Player p : c.getTempListPausedPlayers()) {
-			System.out.println(p.getName());
-		}
-		System.out.println();
-
-		c.createPairsTopandBottom();
-		for (Player p : c.getTempListPausedPlayers()) {
-			System.out.println(p.getName());
-		}
-		System.out.println();
-		c.createPairsTopandBottom();
-		for (Player p : c.getTempListPausedPlayers()) {
-			System.out.println(p.getName());
-		}
-		System.out.println();
-		c.createPairsTopandBottom();
-		for (Player p : c.getTempListPausedPlayers()) {
-			System.out.println(p.getName());
-		}
-		System.out.println();
+//	public static void main(String[] args) {
+//		Player p1 = new Player("A");
+//		Player p2 = new Player("B");
+//		Player p3 = new Player("C");
+//		Player p4 = new Player("D");
+//		Player p5 = new Player("E");
+//		Player p6 = new Player("F");
+//		Player p7 = new Player("G");
+//		Player p8 = new Player("H");
+//		Player p9 = new Player("I");
+//		Player p10 = new Player("J");
+//		Player p11 = new Player("k");
+//		Player p12 = new Player("l");
+//		Player p13 = new Player("m");
+//		Player p14 = new Player("n");
+//		Player p15 = new Player("o");
+//		Player p16 = new Player("p");
+//		Player p17 = new Player("q");
+//		Player p18 = new Player("r");
+//		Player p19 = new Player("s");
+//		Player p20 = new Player("t");
+//		Player p21 = new Player("u");
+//		Player p22 = new Player("v");
+//		Player p23 = new Player("w");
+//		Player p24 = new Player("x");
+//		Player p25 = new Player("y");
+//		Player p26 = new Player("z");
+//		Player p27 = new Player("1");
+//		Player p28 = new Player("2");
+//		Player p29 = new Player("3");
+//
+//		Calculations c = new Calculations();
+//		c.addPlayer(p1);
+//		c.addPlayer(p2);
+//		c.addPlayer(p3);
+//		c.addPlayer(p4);
+//		c.addPlayer(p5);
+//		c.addPlayer(p6);
+//		c.addPlayer(p7);
+//		c.addPlayer(p8);
+//		c.addPlayer(p9);
+//		c.addPlayer(p10);
+//		c.addPlayer(p11);
+//		c.addPlayer(p12);
+//		c.addPlayer(p13);
+//		c.addPlayer(p14);
+//		c.addPlayer(p15);
+//		c.addPlayer(p16);
+//		c.addPlayer(p17);
+//		c.addPlayer(p18);
+//		c.addPlayer(p19);
+//		c.addPlayer(p20);
+//		c.addPlayer(p21);
+//		c.addPlayer(p22);
+//		c.addPlayer(p23);
+//		c.addPlayer(p24);
+//		c.addPlayer(p25);
+//		c.addPlayer(p26);
+//		c.addPlayer(p27);
+//		c.addPlayer(p28);
+//		c.addPlayer(p29);
+//
+//		c.createPairsTopandBottom();
+//		for (Player p : c.getTempListPausedPlayers()) {
+//			System.out.println(p.getName());
+//		}
+//		System.out.println();
+//
+//		c.createPairsTopandBottom();
+//		for (Player p : c.getTempListPausedPlayers()) {
+//			System.out.println(p.getName());
+//		}
+//		System.out.println();
+//
+//		c.createPairsTopandBottom();
+//		for (Player p : c.getTempListPausedPlayers()) {
+//			System.out.println(p.getName());
+//		}
+//		System.out.println();
+//		c.createPairsTopandBottom();
+//		for (Player p : c.getTempListPausedPlayers()) {
+//			System.out.println(p.getName());
+//		}
+//		System.out.println();
+//		c.createPairsTopandBottom();
+//		for (Player p : c.getTempListPausedPlayers()) {
+//			System.out.println(p.getName());
+//		}
+//		System.out.println();
 
 		//
 		//
@@ -522,5 +530,5 @@ public class Calculations {
 		//
 		// System.out.println(randInt(1, 5));
 		// }
-	}
+//	}
 }

@@ -96,11 +96,9 @@ public class BierMinton extends JFrame {
 	private int pointsVictory = 2; // Points of Victory
 	private int pointsDraw = 1; // Points of Draw
 	private int pointsLost = 0; // Points of Lost
-	private int numberOfCourts = 6; // Number of Courts to play
+	private int numberOfCourts = 3; // Number of Courts to play
 	private int numberAddPlayers = 10; // Number of Player Inputs on Start Screen
 	private ArrayList<JTextField> resultsFields = new ArrayList<JTextField>(); // Arraylist of all result text fields
-	private boolean isEnded; // Dient zur Identifikation, dass Ergebnisse nach editieren nicht doppelt
-								// gezählt werden.
 
 	/**
 	 * Constructor Method
@@ -150,6 +148,10 @@ public class BierMinton extends JFrame {
 		setSize(new Dimension(1400, 800));
 		setMinimumSize(new Dimension(800, 600));
 		setVisible(true);
+		
+		//Variablen setzen
+		//Number of courts an calcualtions übergeben
+		calc.setNumOfcourts(this.numberOfCourts);
 
 	}
 
@@ -937,6 +939,7 @@ public class BierMinton extends JFrame {
 		}
 	};
 
+	
 	/**
 	 * Main methode
 	 *
