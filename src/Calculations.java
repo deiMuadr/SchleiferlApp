@@ -1,3 +1,4 @@
+
 /*
  ******************************************************************
  Copyright (c) 2017 Simon Kn\u00F6dler
@@ -37,13 +38,13 @@
 import java.util.*;
 
 public class Calculations {
-	
+
 	// Instance
 	private static Calculations _instance;
 
 	// Global strings
 	private String playerMatrix[][];
-	
+
 	// Global arrays
 	private List<Player> playerList = new ArrayList<Player>();
 	private List<Player> tempListFirstPlayers;
@@ -53,23 +54,22 @@ public class Calculations {
 	// Global integers
 	private int gespielteRunden;
 	private int numOfcourts;
-	
 
-    // Constructor is now private
+	// Constructor is now private
 	private Calculations() {
-		
+
 		gespielteRunden = 0;
-		
+
 	}
-	
+
 	// Call this method to get an instance
-    public static Calculations getInstance() {
-    	
-        if (_instance == null)
-        	_instance = new Calculations();
-        return _instance;
-        
-    }
+	public static Calculations getInstance() {
+
+		if (_instance == null)
+			_instance = new Calculations();
+		return _instance;
+
+	}
 
 	/**
 	 * Sortiert die Playerliste nach den Punkten
@@ -97,8 +97,7 @@ public class Calculations {
 			Player p = playerList.get(i);
 			if (i > 0) {
 				if (p.getPoints() == playerList.get(i - 1).getPoints()
-						&& p.getDifference() == playerList.get(i - 1)
-								.getDifference()) {
+						&& p.getDifference() == playerList.get(i - 1).getDifference()) {
 					p.setPlatz(playerList.get(i - 1).getPlatz());
 				} else {
 					p.setPlatz(i + 1);
@@ -119,123 +118,91 @@ public class Calculations {
 		tempListSecondPlayers = new ArrayList<Player>();
 		tempListPausedPlayers = new ArrayList<Player>();
 
-		int firstPlayer = 0;
-		int secondPlayer = 0;
-		int obereGrenze = 0;
-		int untereGrenze = 0;
+		int firstPlayer;
+		int secondPlayer;
+		int obereGrenze;
+		int untereGrenze;
 
-		int gespielt = 0;
-		int nichtGespielt = 0;
+		//reset "gespielt" once all players played.
+		int i = 0;
+		for(Player p : playerList) {
+			if(!p.isGespielt()) {
+				i += 1;
+			}
+		} if (i == playerList.size()) {
+			for(Player p : playerList) {
+				p.setGespielt(true);
+			}
+		}
 
-		//TODO: gespielt nicht gespielt funktioniert noch nicht, d.h.aussetzen bis jeder einmal ausgesetzt hat
-//		for (Player p : playerList) {
-//			if (p.isGespielt()) {
-//				gespielt += 1;
-//			} else {
-//				nichtGespielt += 1;
-//			}
-//		}
-//
-//		if (nichtGespielt == playerList.size()) {
-//			for (Player p : playerList) {
-//				p.setGespielt(true);
-//				gespielt = playerList.size();
-//				nichtGespielt = 0;
-//			}
-//		}
 
 		while (playerList.size() > 0) {
 
-			// 1. Auf flag "gespielt" pr\u00FCfen. Spieler mit Flag bevorzugen.
+			// 1. Random Spieler suchen
+			firstPlayer = randInt(0, playerList.size() - 1);
+			// 2. pruefen, ob isGespielt, wenn ja neuen Spiler suchen
+			firstPlayer = checkIsGespielt(playerList.size() * 2, playerList.size() - 1, 0, firstPlayer);
 
-			int i = 1;
-			while (i < playerList.size() && gespielteRunden != 0) {
-
-				if (!playerList.get(i).isGespielt()) {
-					// partner suchen und beide l\u00F6schen aus der liste
-					// pr\u00FCfen an welcher stelle der Spieler steht, wenn oben,
-					// dann unten einen Parnter, wenn unten, dann oben einen
-					// Partner.
-					if (i < Math.round(playerList.size() / 2)) {
-
-						// zufallszahl von mitte bis zum letzten Element
-						obereGrenze = Math.round(playerList.size() / 2);
-						untereGrenze = playerList.size() - 1;
-
-						secondPlayer = i;
-
-						while (i == secondPlayer) {
-							secondPlayer = randInt(obereGrenze, untereGrenze);
-						}
-
-						tempListFirstPlayers.add(playerList.get(i));
-						// TODO: wenn aAussetzen gespeichert werden soll und
-						// erst aussetzen nachdem alle ausgestetzt haben m\u00F6glich
-						// sein soll, dann Zeile unten l\u00F6schen.
-						// playerList.get(i).setGespielt(true);
-						tempListSecondPlayers.add(playerList.get(secondPlayer));
-
-						// Erste 2. spieler, dann ersten entfernen, damit index
-						// nicht verrutscht und ein falscher Spieler gel\u00F6scht
-						// wird.
-						playerList.remove(secondPlayer);
-						playerList.remove(i);
-
-					} else {
-
-						untereGrenze = Math.round(playerList.size() / 2);
-						obereGrenze = 0;
-
-						firstPlayer = i;
-
-						while (i == firstPlayer) {
-							firstPlayer = randInt(obereGrenze, untereGrenze);
-						}
-
-						tempListSecondPlayers.add(playerList.get(i));
-						// TODO: wenn aAussetzen gespeichert werden soll und
-						// erst aussetzen nachdem alle ausgestetzt haben m\u00F6glich
-						// sein soll, dann Zeile unten l\u00F6schen.
-						// playerList.get(i).setGespielt(true);
-
-						tempListFirstPlayers.add(playerList.get(firstPlayer));
-
-						playerList.remove(i);
-						playerList.remove(firstPlayer);
-
-					}
-					// Liste wieder von vorne durchlaufen
-					i = 1;
+			// 3. Pruefen, ob Spieler 1 in oberer oder unteren Haelfte
+			if (firstPlayer < playerList.size() / 2) {
+				// obere Haelfte, also in unterer suchen
+				
+				obereGrenze = Math.round(playerList.size() / 2);
+				if(playerList.size() % 2 != 0) {
+					obereGrenze = (playerList.size()-1) / 2;
 				} else {
-					i = i + 1;
+					obereGrenze = playerList.size() / 2;
 				}
-			}
-
-			// mit normaler Auslosung weitermachen
-			if (playerList.size() != 1) {
-				// Zufallszahl von erstem Bis mittleren Element
-				untereGrenze = Math.round(playerList.size() / 2);
-				obereGrenze = 0;
-				firstPlayer = randInt(obereGrenze, untereGrenze);
-
-				// zufallszahl von mitte bis zum letzten Element, falls zweimal
-				// der
-				// gleiche Spieler gelost wird.
-				// Endlosschleife vermeiden, wenn nur noch 2 Spieler in der
-				// Liste.,
-				// sonst normal losen
+				
+				untereGrenze = playerList.size() - 1;
 
 				secondPlayer = firstPlayer;
-				while (secondPlayer == firstPlayer && playerList.size() > 2) {
-					obereGrenze = Math.round((playerList.size() / 2));
-					untereGrenze = playerList.size() - 1;
+				// Pruefen, ob zweiter Spieler isGespielt = true hat, dann neu losen.
+				while (secondPlayer == firstPlayer) {
 					secondPlayer = randInt(obereGrenze, untereGrenze);
+					secondPlayer = checkIsGespielt(playerList.size() * 2, untereGrenze, obereGrenze, secondPlayer);
 				}
 
-				if (playerList.size() == 2) {
-					firstPlayer = 0;
-					secondPlayer = 1;
+				// Spieler zu den Listen hinzfuegen.
+				tempListSecondPlayers.add(playerList.get(secondPlayer));
+				tempListFirstPlayers.add(playerList.get(firstPlayer));
+				// erst schlechteren Spieler loeschen, dann den besseren, da sonst der Index
+				// falsch ist.
+
+				playerList.remove(secondPlayer);
+				playerList.remove(firstPlayer);
+
+			} else {
+				// untere Haelfte, also in oberer suchen
+				
+				obereGrenze = 0;
+				if (playerList.size() % 2 != 0) {
+					untereGrenze = (playerList.size() - 1) / 2;
+				} else {
+					untereGrenze = playerList.size() / 2;
 				}
+
+				secondPlayer = firstPlayer;
+				// Pruefen, ob zweiter Spiler isGespielt = true hat, dann neu losen.
+				while (secondPlayer == firstPlayer) {
+					secondPlayer = randInt(obereGrenze, untereGrenze);
+					secondPlayer = checkIsGespielt(playerList.size() * 2, untereGrenze, obereGrenze, secondPlayer);
+				}
+
+				// Spieler zu den Listen hinzfuegen.
+				tempListSecondPlayers.add(playerList.get(secondPlayer));
+				tempListFirstPlayers.add(playerList.get(firstPlayer));
+
+				// erst schlechteren Spieler loeschen, dann den besseren, da sonst der Index
+				// falsch ist.
+				playerList.remove(firstPlayer);
+				playerList.remove(secondPlayer);
+
+			}
+
+			if (playerList.size() == 2) {
+				firstPlayer = 0;
+				secondPlayer = 1;
 
 				// Spieler in die tempListen schreiben
 				tempListFirstPlayers.add(playerList.get(firstPlayer));
@@ -244,7 +211,8 @@ public class Calculations {
 				playerList.remove(secondPlayer);
 				playerList.remove(firstPlayer);
 			}
-			// bei ungerader Anzahl oder mehr wie maximal moegliche Spieleranzahl die \u00F6brigen Spieler
+			// bei ungerader Anzahl oder mehr wie maximal moegliche Spieleranzahl die
+			// \u00F6brigen Spieler
 			// in die Paused-Liste
 			// schreiben und aus PlayerList l\u00F6schen
 			if (playerList.size() == 1 || tempListFirstPlayers.size() >= this.numOfcourts * 2) {
@@ -257,9 +225,37 @@ public class Calculations {
 				}
 			}
 		}
-//		for (Player p : tempListPausedPlayers) {
-//			System.out.println(p.getName());
-//		}
+		for (Player p : tempListPausedPlayers) {
+			System.out.println(p.getName());
+		}
+	}
+
+	/**
+	 * Hilfsmethode zur Pruefung von isGespielt und somit zur Spielerauswahl
+	 * 
+	 * @param maxDraws   maximum number of draws - should be 2*playerList.size
+	 * @param upperLimit upperLimit for random number
+	 * @param lowerLimit lower Limit for random number
+	 * @param Player     player to check
+	 */
+	public int checkIsGespielt(int maxDraws, int lowerLimit, int upperLimit, int player) {
+		// 1. Auf flag "gespielt" pr\u00FCfen. Spieler mit Flag =false bevorzugen
+		// 2. Falls nicht gespielt, dann nehmen (break), sonst neu losen bis maximal
+		// 2*Playerlist.size durchlaufen ist. Dann break
+		int draws = 0;
+		while (playerList.get(player).isGespielt()) {
+			player = randInt(upperLimit, lowerLimit);
+
+			if (!playerList.get(player).isGespielt()) {
+				break;
+			}
+
+			if (draws == maxDraws) {
+				break;
+			}
+			draws += 1;
+		}
+		return player;
 	}
 
 	/**
@@ -284,10 +280,8 @@ public class Calculations {
 	/**
 	 * Random Zahl zwischen min und max
 	 *
-	 * @param min
-	 *            minimum
-	 * @param max
-	 *            maximum
+	 * @param min minimum
+	 * @param max maximum
 	 * @return random Zahl
 	 */
 	public int randInt(int min, int max) {
@@ -309,7 +303,7 @@ public class Calculations {
 	public void addPlayer(Player p) {
 		playerList.add(p);
 	}
-	
+
 	// Get specific player data for JSON log
 	public Player getPlayer(String playerName) {
 		Player player = new Player();
@@ -365,7 +359,7 @@ public class Calculations {
 	public void setGespielteRunden(int gespielteRunden) {
 		this.gespielteRunden = gespielteRunden;
 	}
-	
+
 	public int getNumOfcourts() {
 		return numOfcourts;
 	}
@@ -374,15 +368,15 @@ public class Calculations {
 		this.numOfcourts = numOfcourts;
 	}
 
-//	public static void main(String[] args) {
-//		Player p1 = new Player("A");
-//		Player p2 = new Player("B");
-//		Player p3 = new Player("C");
-//		Player p4 = new Player("D");
-//		Player p5 = new Player("E");
-//		Player p6 = new Player("F");
-//		Player p7 = new Player("G");
-//		Player p8 = new Player("H");
+	public static void main(String[] args) {
+		Player p1 = new Player("A");
+		Player p2 = new Player("B");
+		Player p3 = new Player("C");
+		Player p4 = new Player("D");
+		Player p5 = new Player("E");
+		Player p6 = new Player("F");
+		Player p7 = new Player("G");
+		Player p8 = new Player("H");
 //		Player p9 = new Player("I");
 //		Player p10 = new Player("J");
 //		Player p11 = new Player("k");
@@ -404,16 +398,17 @@ public class Calculations {
 //		Player p27 = new Player("1");
 //		Player p28 = new Player("2");
 //		Player p29 = new Player("3");
+//		p3.setGespielt(false);
 //
-//		Calculations c = new Calculations();
-//		c.addPlayer(p1);
-//		c.addPlayer(p2);
-//		c.addPlayer(p3);
-//		c.addPlayer(p4);
-//		c.addPlayer(p5);
-//		c.addPlayer(p6);
-//		c.addPlayer(p7);
-//		c.addPlayer(p8);
+		Calculations c = new Calculations();
+		c.addPlayer(p1);
+		c.addPlayer(p2);
+		c.addPlayer(p3);
+		c.addPlayer(p4);
+		c.addPlayer(p5);
+		c.addPlayer(p6);
+		c.addPlayer(p7);
+		c.addPlayer(p8);
 //		c.addPlayer(p9);
 //		c.addPlayer(p10);
 //		c.addPlayer(p11);
@@ -435,8 +430,11 @@ public class Calculations {
 //		c.addPlayer(p27);
 //		c.addPlayer(p28);
 //		c.addPlayer(p29);
-//
-//		c.createPairsTopandBottom();
+
+		c.setNumOfcourts(2);
+		c.createPairsTopandBottom();
+
+	}
 //		for (Player p : c.getTempListPausedPlayers()) {
 //			System.out.println(p.getName());
 //		}
@@ -464,38 +462,38 @@ public class Calculations {
 //		}
 //		System.out.println();
 
-		//
-		//
-		// c.sortPlayerList();
-		//
-		// // for(Player p : c.getPlayerList()) {
-		// // System.out.println(p.getPoints() + " " + p.getName());
-		// // }
-		// //
-		// c.createPairsTopandBottom();
-		//
-		// }
-		// // Calculations cal = new Calculations();
-		// // cal.addPlayer(p1);
-		// // cal.addPlayer(p2);
-		// // cal.addPlayer(p3);
-		// //
-		// // cal.createMatrix(cal.getPlayerList());
-		// //
-		// // for(int i = 0; i < cal.getPlayerList().size(); i++){
-		// // System.out.print(cal.getPlayerMatrix()[i][0]);
-		// // System.out.print(cal.getPlayerMatrix()[i][1]);
-		// // System.out.print(cal.getPlayerMatrix()[i][2]);
-		// // System.out.print(cal.getPlayerMatrix()[i][3]);
-		// // System.out.println("");
-		// // }
-		// //
-		// // }
+	//
+	//
+	// c.sortPlayerList();
+	//
+	// // for(Player p : c.getPlayerList()) {
+	// // System.out.println(p.getPoints() + " " + p.getName());
+	// // }
+	// //
+	// c.createPairsTopandBottom();
+	//
+	// }
+	// // Calculations cal = new Calculations();
+	// // cal.addPlayer(p1);
+	// // cal.addPlayer(p2);
+	// // cal.addPlayer(p3);
+	// //
+	// // cal.createMatrix(cal.getPlayerList());
+	// //
+	// // for(int i = 0; i < cal.getPlayerList().size(); i++){
+	// // System.out.print(cal.getPlayerMatrix()[i][0]);
+	// // System.out.print(cal.getPlayerMatrix()[i][1]);
+	// // System.out.print(cal.getPlayerMatrix()[i][2]);
+	// // System.out.print(cal.getPlayerMatrix()[i][3]);
+	// // System.out.println("");
+	// // }
+	// //
+	// // }
 
-		// public static void main(String[] args) {
-		// for(int i = 1; i < 10; i++) {
-		//
-		// System.out.println(randInt(1, 5));
-		// }
+	// public static void main(String[] args) {
+	// for(int i = 1; i < 10; i++) {
+	//
+	// System.out.println(randInt(1, 5));
+	// }
 //	}
 }
