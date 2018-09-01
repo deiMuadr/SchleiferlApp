@@ -52,7 +52,6 @@ public class Calculations {
 
 	// Global integers
 	private int gespielteRunden;
-	private int NumOfPlayers = playerList.size();
 	private int numOfcourts;
 	
 
@@ -71,37 +70,6 @@ public class Calculations {
         return _instance;
         
     }
-
-	// /**
-	// * Kreiert die Matrix zum einlesen der SPieler und Werte in die
-	// OrderTabelle
-	// *
-	// * @param playerList
-	// * Liste mit Spielern
-	// */
-	// public void createMatrix(List<Player> playerList) {
-	// int numbPlayers = playerList.size();
-	//
-	// playerMatrix = new String[numbPlayers][4];
-	//
-	// for (int i = 0; i < numbPlayers; i++) {
-	// playerMatrix[i][0] = String.valueOf(playerList.get(i).getPlatz());
-	// playerMatrix[i][1] = playerList.get(i).getName();
-	// playerMatrix[i][2] = String.valueOf(playerList.get(i).getPoints());
-	// playerMatrix[i][3] = String.valueOf(playerList.get(i).getDifference());
-	// }
-	// }
-	//
-	// /**
-	// * L\u00F6scht alle Werte aus der Matrix, um sie neu beschreiben zu k\u00F6nnen.
-	// *
-	// * @param playerList
-	// * Liste mit Spielern
-	// */
-	// public void deleteMatrix(ArrayList<Player> playerList) {
-	// // TODO wird vermutlich nicht ben\u00F6tigt - Modellf\u00FCllung wird \u00FCber Array
-	// gel\u00F6st
-	// }
 
 	/**
 	 * Sortiert die Playerliste nach den Punkten
@@ -160,21 +128,21 @@ public class Calculations {
 		int nichtGespielt = 0;
 
 		//TODO: gespielt nicht gespielt funktioniert noch nicht, d.h.aussetzen bis jeder einmal ausgesetzt hat
-		for (Player p : playerList) {
-			if (p.isGespielt()) {
-				gespielt += 1;
-			} else {
-				nichtGespielt += 1;
-			}
-		}
-
-		if (nichtGespielt == playerList.size()) {
-			for (Player p : playerList) {
-				p.setGespielt(true);
-				gespielt = playerList.size();
-				nichtGespielt = 0;
-			}
-		}
+//		for (Player p : playerList) {
+//			if (p.isGespielt()) {
+//				gespielt += 1;
+//			} else {
+//				nichtGespielt += 1;
+//			}
+//		}
+//
+//		if (nichtGespielt == playerList.size()) {
+//			for (Player p : playerList) {
+//				p.setGespielt(true);
+//				gespielt = playerList.size();
+//				nichtGespielt = 0;
+//			}
+//		}
 
 		while (playerList.size() > 0) {
 
@@ -276,7 +244,7 @@ public class Calculations {
 				playerList.remove(secondPlayer);
 				playerList.remove(firstPlayer);
 			}
-			// bei ungerader Anzahl oder mehr wie 24 Spieler die \u00F6brigen Spieler
+			// bei ungerader Anzahl oder mehr wie maximal moegliche Spieleranzahl die \u00F6brigen Spieler
 			// in die Paused-Liste
 			// schreiben und aus PlayerList l\u00F6schen
 			if (playerList.size() == 1 || tempListFirstPlayers.size() >= this.numOfcourts * 2) {
@@ -286,7 +254,6 @@ public class Calculations {
 					playerList.get(0).setGespielt(false);
 					playerList.remove(0);
 					x--;
-
 				}
 			}
 		}

@@ -96,9 +96,10 @@ public class BierMinton extends JFrame {
 	private int pointsVictory = 2; // Points of Victory
 	private int pointsDraw = 1; // Points of Draw
 	private int pointsLost = 0; // Points of Lost
-	private int numberOfCourts = 3; // Number of Courts to play
+	private int numberOfCourts = 6; // Number of Courts to play
 	private int numberAddPlayers = 10; // Number of Player Inputs on Start Screen
 	private ArrayList<JTextField> resultsFields = new ArrayList<JTextField>(); // Arraylist of all result text fields
+	private int numberOfUsedCourts; //Zaehlt wie viele courts tatsächlich besetzt sind.
 
 	/**
 	 * Constructor Method
@@ -266,10 +267,9 @@ public class BierMinton extends JFrame {
 		this.inputResultB = new JTextField[this.numberOfCourts];
 		JLabel[] vsT = new JLabel[this.numberOfCourts];
 		JLabel[] vsR = new JLabel[this.numberOfCourts];
-
+		
 		int index = 0;
 		for (int y = 0; y < this.numberOfCourts; y++) {
-
 			if ((index >= calc.getPlayerList().size()) || ((calc.getPlayerList().size() - index) == 1)) {
 				break;
 			} else if ((calc.getPlayerList().size() - index) >= 4) {
@@ -326,8 +326,9 @@ public class BierMinton extends JFrame {
 			grid.gridy = yVal;
 			inputArea.add(this.inputResultB[y], grid);
 			yVal++;
-
 		}
+		
+		
 
 		JPanel actionArea = new JPanel();
 		actionArea.setLayout(new GridBagLayout());
@@ -527,7 +528,7 @@ public class BierMinton extends JFrame {
 	 * Beschreibt die Labels mit den entsprechenden Spielpaarungen
 	 */
 	private void setPairs() {
-
+		int court = 0;
 		// Labels mit Spielern beschreiben; oben mit unten
 		if (radioTopBottom.isSelected()) {
 			calc.createPairsTopandBottom();
@@ -548,7 +549,7 @@ public class BierMinton extends JFrame {
 			singlePlayers = newSinglePlayers;
 
 			// Mit Doppelpaarungen anfagen und die Spielfelder bef\u00FCllen
-			int court = 0;
+			
 			if (doubleTeams != 0) {
 				while (court < this.numberOfCourts) {
 					if (index >= doubleTeams) {
@@ -574,8 +575,8 @@ public class BierMinton extends JFrame {
 					index++;
 					court++;
 				}
+			
 			}
-
 			// TODO: gut mit gut - siehe todo weiter oben; in Methode auslagern
 
 			// Am Ende die Spieler wieder in die Playerlist schreiben, um dann
@@ -595,6 +596,8 @@ public class BierMinton extends JFrame {
 				calc.getPlayerList().add(p);
 			}
 		}
+		//Anzahl der benutzen Courts speichern
+		numberOfUsedCourts = court;
 	}
 
 	/**
@@ -755,7 +758,7 @@ public class BierMinton extends JFrame {
 			int result = 0;
 			int index = 0;
 
-			for (int court = 0; court < numberOfCourts; court++) {
+			for (int court = 0; court < numberOfUsedCourts; court++) {
 
 				playerNamesA = new String[2];
 				playerNamesB = new String[2];
