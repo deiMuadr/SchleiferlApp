@@ -54,12 +54,14 @@ public class BierMinton extends JFrame {
 	// Global Classes
 	private Calculations calc = Calculations.getInstance();
 	private Log log = new Log();
+	private Menu menu = new Menu();
 
 	// Global Panels
 	private JPanel panelLayout;
 	private JPanel panelOrder;
 	private JPanel panelMatches;
 	private JPanel panelNames;
+	private JPanel panelMenu;
 
 	// Global Labels
 	private JLabel labelNumberOfPlayers;
@@ -100,7 +102,7 @@ public class BierMinton extends JFrame {
 	private int numberAddPlayers = 10; // Number of Player Inputs on Start Screen
 	private ArrayList<JTextField> resultsFields = new ArrayList<JTextField>(); // Arraylist of all result text fields
 	private boolean isEnded; // Dient zur Identifikation, dass Ergebnisse nach editieren nicht doppelt
-								// gezählt werden.
+								// gezï¿½hlt werden.
 
 	/**
 	 * Constructor Method
@@ -109,6 +111,16 @@ public class BierMinton extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("BierMinton");
+		
+		JMenuBar toolsMenu = new JMenuBar();
+		toolsMenu.setBorderPainted(false);
+		JMenu tools = new JMenu();
+		ImageIcon toolsIcon = new ImageIcon("images/icons/settings_simple.png");
+		tools.setIcon(toolsIcon);
+		toolsMenu.add(Box.createHorizontalGlue());
+		toolsMenu.add(tools);
+		tools.addMouseListener(toolsClicked);
+		setJMenuBar(toolsMenu);
 
 		// Icon f\u00FCr Bierminton setzen
 		ArrayList<Image> images = new ArrayList<Image>();
@@ -116,7 +128,7 @@ public class BierMinton extends JFrame {
 
 		for (File file : directory.listFiles()) {
 			try {
-				if (file.getName().toLowerCase().endsWith(".png")) {
+				if (file.getName().toLowerCase().matches("\\d*x\\d*.png")) {
 					File pathToFile = new File(directory + "\\" + file.getName());
 					Image image = ImageIO.read(pathToFile);
 					images.add(image);
@@ -142,9 +154,15 @@ public class BierMinton extends JFrame {
 		// Add Sections
 		this.initOrder();
 		this.initPlayers();
+		this.panelMenu = new Menu();
+		this.panelMenu.setBorder(BorderFactory.createLineBorder(Color.green));
+		grid.gridwidth = 2;
+		this.panelLayout.add(this.panelMenu, grid);
+		this.panelLayout.setComponentZOrder(this.panelMenu, 1);
 
 		this.panelOrder.setVisible(true);
 		this.panelNames.setVisible(true);
+		this.panelMenu.setVisible(false);
 
 		pack();
 		setSize(new Dimension(1400, 800));
@@ -831,7 +849,7 @@ public class BierMinton extends JFrame {
 				inputResultA[court].setEditable(false);
 				inputResultB[court].setEditable(false);
 
-				// Alle Felder in eine Liste schreiben (aktuell für den Edit-Button benötigt)
+				// Alle Felder in eine Liste schreiben (aktuell fï¿½r den Edit-Button benï¿½tigt)
 				resultsFields.add(inputResultA[court]);
 				resultsFields.add(inputResultB[court]);
 			}
@@ -934,6 +952,30 @@ public class BierMinton extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 
+		}
+	};
+	
+	MouseListener toolsClicked = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			panelMenu.setVisible(true);
 		}
 	};
 
