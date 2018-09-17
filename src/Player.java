@@ -42,6 +42,7 @@ public class Player {
 	private int platz;
 	private int rundenAufPlatz;
 	private boolean gespielt;
+	private boolean singlePlayed;
 
 	public Player() {
 	}
@@ -53,16 +54,18 @@ public class Player {
 		this.difference = 0;
 		this.rundenAufPlatz = 0;
 		this.gespielt = true;
+		this.singlePlayed = false;
 
 	}
 
-	public Player(int platz, String name, int points, int difference, int rundenAufPlatz, boolean gespielt) {
+	public Player(int platz, String name, int points, int difference, int rundenAufPlatz, boolean gespielt, boolean singlePlayed) {
 		this.platz = platz;
 		this.name = name;
 		this.points = points;
 		this.difference = difference;
 		this.rundenAufPlatz = rundenAufPlatz;
 		this.gespielt = gespielt;
+		this.singlePlayed = singlePlayed;
 	}
 
 	// Getters und Setters
@@ -113,6 +116,14 @@ public class Player {
 
 	public void setGespielt(boolean gespielt) {
 		this.gespielt = gespielt;
+	}
+
+	public boolean isSinglePlayed() {
+		return singlePlayed;
+	}
+
+	public void setSinglePlayed(boolean singlePlayed) {
+		this.singlePlayed = singlePlayed;
 	}
 
 }

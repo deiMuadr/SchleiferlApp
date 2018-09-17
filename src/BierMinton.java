@@ -355,7 +355,7 @@ public class BierMinton extends JFrame {
 		actionArea.add(this.radioTopTop, grid);
 
 		this.radioTopBottom.setSelected(true);
-		this.radioTopTop.setEnabled(false);
+		this.radioTopTop.setEnabled(true);
 
 		this.buttonGroupMode = new ButtonGroup();
 		this.buttonGroupMode.add(this.radioTopBottom);
@@ -529,9 +529,12 @@ public class BierMinton extends JFrame {
 	 */
 	private void setPairs() {
 		int court = 0;
-		// Labels mit Spielern beschreiben; oben mit unten
+		//Spielmodus auswaehlen.
 		if (radioTopBottom.isSelected()) {
 			calc.createPairsTopandBottom();
+		} else if (radioTopTop.isSelected()) {
+			calc.createPairsTopandTop();
+		}
 			// Pr\u00FCft, ob alles Doppelspiele sind; wenn ein einzel dabei ist,
 			// wird unten nach dem if im else block weiter gemacht.
 			// TODO - feldbef\u00FCllung in Methode auslagern, da f\u00FCr 2. Variante Gut
@@ -595,7 +598,6 @@ public class BierMinton extends JFrame {
 				p.setPoints(p.getPoints() + pointsVictory);
 				calc.getPlayerList().add(p);
 			}
-		}
 		//Anzahl der benutzen Courts speichern
 		numberOfUsedCourts = court;
 	}
