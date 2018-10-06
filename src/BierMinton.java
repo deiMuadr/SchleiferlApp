@@ -54,6 +54,8 @@ public class BierMinton extends JFrame {
 	// Global Classes
 	private Calculations calc = Calculations.getInstance();
 	private Log log = new Log();
+	
+	
 
 	// Global Panels
 	private JPanel panelLayout;
